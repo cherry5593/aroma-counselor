@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>🌸 陰陽五行アロマ カウンセラー アドバイザー</title>
+  <style>
+    body { 
+      font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif; 
+      padding: 20px; 
+      max-width: 800px; 
+      margin: auto; 
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+      min-height: 100vh;
+      color: #333;
+    }
+    .container {
+      background: rgba(255,255,255,0.95);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    h1 { 
+      text-align: center; 
+      color: #4a5568; 
+      margin-bottom: 10px;
+      font-size: 1.8em;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      line-height: 1.3;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 1.1em;
+    }
+    .input-section {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+    input[type="date"] { 
+      font-size: 1.2rem; 
+      padding: 10px 15px; 
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+    button { 
+      font-size: 1.2rem; 
+      padding: 10px 25px; 
+      background: linear-gradient(45deg, #ff9a9e, #fecfef);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover { transform: translateY(-2px); }
+    .result { 
+      margin-top: 30px; 
+      padding: 25px; 
+      border: none;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .jikkan-title {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: linear-gradient(45deg, #ff6b6b, #ffa726);
+      color: white;
+      border-radius: 10px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    .section {
+      margin: 20px 0;
+      padding: 15px;
+      border-left: 4px solid #ff9a9e;
+      background: #f8f9fa;
+      border-radius: 0 8px 8px 0;
+    }
+    .section h3 {
+      margin: 0 0 10px 0;
+      color: #4a5568;
+      font-size: 1.3em;
+    }
+    .personality-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 15px 0;
+    }
+    .personality-item {
+      padding: 10px;
+      background: #e8f4f8;
+      border-radius: 8px;
+      border-left: 3px solid #ff9a9e;
+    }
+    .color-box { 
+      display: inline-block; 
+      width: 20px; 
+      height: 20px; 
+      margin-right: 8px; 
+      vertical-align: middle; 
+      border: 2px solid #999; 
+      border-radius: 3px;
+    }
+    .aroma-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .aroma-item {
+      background: #e6fffa;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.9em;
+      border: 1px solid #38b2ac;
+    }
+    .fortune-section {
+      background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+      color: #2d3436;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    .warning {
+      background: #fed7d7;
+      border: 1px solid #fc8181;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+    .lucky-item {
+      background: #c6f6d5;
+      border: 1px solid #68d391;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+    .kuubou-section {
+      background: linear-gradient(135deg, #e8e8ff, #f0f0ff);
+      border: 2px solid #9999ff;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    @media (max-width: 600px) {
+      .personality-grid { grid-template-columns: 1fr; }
+      .container { padding: 15px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🌸 陰陽五行 アロマ カウンセラー<br>アドバイザー</h1>
+  <p class="subtitle">古代中国の陰陽五行思想とアロマテラピーを融合した<br>本格的なカウンセリング診断</p>
+  
+  <div class="input-section">
+    <p><strong>生年月日から陰陽五行とアロマの処方箋を診断</strong></p>
+    <input type="date" id="birth">
+    <button onclick="uranai()">アロマカウンセリング開始</button>
+  </div>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+function uranai() {
+  const val = document.getElementById('birth').value;
+  if (!val) {
+    alert('生年月日を入力してください');
+    return;
+  }
+  
+  const dateObj = new Date(val);
+  const y = dateObj.getFullYear();
+  const m = dateObj.getMonth() + 1;
+  const d = dateObj.getDate();
+  
+  // 正確な十干計算（日柱）
+  const baseDate = new Date(1965, 2, 1);
+  const targetDate = new Date(y, m - 1, d);
+  const daysDiff = Math.floor((targetDate - baseDate) / (1000 * 60 * 60 * 24));
+  
+  let jikkanIndex = daysDiff % 10;
+  if (jikkanIndex < 0) {
+      jikkanIndex += 10;
+  }
+  
+  const stems = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+  const goyou = {'甲':'木','乙':'木','丙':'火','丁':'火','戊':'土','己':'土','庚':'金','辛':'金','壬':'水','癸':'水'};
+  const colors = {
+    '木':['#2196F3','青','#4CAF50','緑'],
+    '火':['#F44336','赤','#EC407A','ピンク','#FF9800','オレンジ'],
+    '土':['#FFEB3B','黄','#795548','茶','#F5DEB3','ベージュ','#FFD700','ゴールド'],
+    '金':['#FFFFFF','白','#C0C0C0','シルバー'],
+    '水':['#000000','黒','#9E9E9E','グレー','#3F51B5','紺','#81D4FA','水色']
+  };
+  
+  const kuubouData = calculateKuubou(daysDiff);
+  
+  const ten = stems[jikkanIndex];
+  const gy = goyou[ten];
+  const cl = colors[gy];
+
+  const info = {
+    '甲': {
+      nature: '木の陽（リーダータイプ）', 
+      element: '木',
+      personality: '真っ直ぐで力強く、天然のリーダー気質。正義感が強く、周囲を引っ張る存在。',
+      strength: ['強いリーダーシップ', '成長志向', '正義感', '行動力', 'まっすぐな性格', '責任感'],
+      weakness: ['頑固', '融通性に欠ける', 'プライドが高い', '他者の意見を聞かない', '短気', '完璧主義'],
+      love: '一途で情熱的。相手をリードしたがる傾向。長期的な関係を好む。',
+      work: '管理職やチームリーダーに向く。自分のペースで進められる仕事が最適。',
+      health: 'ストレスを溜めやすく、肝臓系に注意。定期的な運動が必要。',
+      money: '堅実な投資を好む。無駄遣いは少ないが、ケチと思われることも。',
+      stress: '森林浴、瞑想、自然の中での散歩', 
+      aroma: ['ラベンダー','オレンジ','グレープフルーツ','ベルガモット','ペパーミント'], 
+      job: '教師・講師・行政職・コンサルタント・経営者・管理職', 
+      fortune2026: '2026年度は新しいプロジェクトのリーダーを任される可能性が高い。健康管理に注意し、周囲との協調を心がけることで、大きな成果を得られる年。',
+      compatible: ['乙', '丙', '己'],
+      lucky_items: ['観葉植物', '木製アクセサリー', '緑色の文房具'],
+      warning: 'プライドの高さから周囲との摩擦が生じやすい。柔軟性を持つことが開運の鍵。'
+    },
+    '乙': {
+      nature: '木の陰（調和タイプ）', 
+      element: '木',
+      personality: 'しなやかで美しく、調和を重んじる平和主義者。芸術的センスに優れる。',
+      strength: ['協調性', '芸術的センス', '優美さ', '思いやり', '柔軟性', '美的感覚'],
+      weakness: ['優柔不断', '傷つきやすい', '依存的', '自己主張が弱い', '変化を恐れる', '完璧主義'],
+      love: '繊細で情熱的。相手に合わせすぎて疲れることも。理想が高い。',
+      work: 'クリエイティブな分野で才能発揮。チームワークを活かせる環境が最適。',
+      health: '神経系が敏感。ストレスによる体調不良に注意。良質な睡眠が重要。',
+      money: '感情で買い物をしがち。美しいものへの出費が多い。計画的な貯蓄を。',
+      stress: '音楽鑑賞・読書・美術館巡り・ヨガ', 
+      aroma: ['ラベンダー','オレンジ','グレープフルーツ','ベルガモット','ペパーミント'], 
+      job: 'デザイナー・カウンセラー・翻訳家・美容関係・アーティスト', 
+      fortune2026: '2026年度は芸術的な才能が注目される年。人間関係では受け身にならず、積極的に行動することで新たな可能性が開ける。',
+      compatible: ['甲', '丁', '壬'],
+      lucky_items: ['花', '美しいアクセサリー', 'アートブック'],
+      warning: '他人に合わせすぎて本来の自分を見失わないよう注意。自分の意見を大切に。'
+    },
+    '丙': {
+      nature: '火の陽（カリスマタイプ）', 
+      element: '火',
+      personality: '太陽のように明るく情熱的。天然のカリスマ性で人を惹きつける。',
+      strength: ['カリスマ性', '行動力', '明るさ', '情熱', 'リーダーシップ', '積極性'],
+      weakness: ['飽きやすい', '衝動的', '短気', '注意散漫', '継続力不足', '自己中心的'],
+      love: '情熱的で積極的。恋愛では主導権を握りたがる。浮気性の面も。',
+      work: '人前に出る仕事や営業職で力発揮。ルーティンワークは苦手。',
+      health: '心臓・血圧系に注意。興奮しやすく、疲労を溜めがち。',
+      money: '衝動買いが多い。投資では感情的になりやすく、ギャンブル性のあるものは避けて。',
+      stress: 'スポーツ・旅行・アウトドア活動・ダンス', 
+      aroma: ['ラベンダー','ローズマリー','イランイラン','パチュリ','レモングラス'], 
+      job: '営業・イベント企画・司会業・芸能関係・起業家', 
+      fortune2026: '2026年度は注目を浴びる機会が多い年。健康管理と冷静な判断力が成功の鍵となる。',
+      compatible: ['甲', '丁', '戊'],
+      lucky_items: ['赤いアイテム', '太陽モチーフ', 'スポーツ用品'],
+      warning: '衝動的な行動で失敗しないよう、一度立ち止まって考える習慣を。'
+    },
+    '丁': {
+      nature: '火の陰（癒しタイプ）', 
+      element: '火',
+      personality: 'ろうそくのように優しく温かい。人を癒し、支える存在。',
+      strength: ['思いやり', '共感力', '癒し力', '優しさ', '忍耐力', '奉仕精神'],
+      weakness: ['自己主張が苦手', '依存的', '優柔不断', 'ストレスを溜めやすい', '境界線が曖昧', '自己犠牲的'],
+      love: '献身的で一途。相手を支えることに喜びを感じる。共依存に注意。',
+      work: '人をサポートする仕事が天職。チームの調和役として重宝される。',
+      health: '神経系・胃腸系が弱い。ストレスが体調に直結しやすい。',
+      money: '他人のために使うことが多い。自分のための貯蓄も忘れずに。',
+      stress: 'アロマテラピー・読書・音楽・マッサージ', 
+      aroma: ['ラベンダー','ローズマリー','イランイラン','パチュリ','レモングラス'], 
+      job: '看護師・セラピスト・カフェ経営・介護士・心理カウンセラー', 
+      fortune2026: '2026年度は人とのつながりから幸運が訪れる年。自分の感情も大切にして、バランスの取れた生活を心がけて。',
+      compatible: ['乙', '丙', '己'],
+      lucky_items: ['キャンドル', '温かい色のアイテム', 'ハーブティー'],
+      warning: '自己犠牲が過ぎると疲れ果ててしまう。適度な境界線を設けることが大切。'
+    },
+    '戊': {
+      nature: '土の陽（安定タイプ）', 
+      element: '土',
+      personality: '大地のように安定感があり、信頼できる存在。現実的で責任感が強い。',
+      strength: ['安定感', '責任感', '現実的', '信頼性', '忍耐力', '包容力'],
+      weakness: ['変化を嫌う', '頑固', '保守的', '行動が遅い', '柔軟性不足', '心配性'],
+      love: '安定した関係を求める。結婚願望が強く、家庭を大切にする。',
+      work: '長期的なプロジェクトや組織運営に向く。安定した職場を好む。',
+      health: '消化器系に注意。運動不足になりがち。規則正しい生活が重要。',
+      money: '堅実な資産形成が得意。無駄遣いは少ないが、投資チャンスを逃すことも。',
+      stress: 'ガーデニング・整理整頓・料理・散歩', 
+      aroma: ['レモン','マジョラム','フェンネル','グレープフルーツ','ペパーミント'], 
+      job: '公務員・経理・工場長・銀行員・不動産業', 
+      fortune2026: '2026年度は基盤固めの年。急がず着実に進むことで大きな成果を得られる。新しい環境での適応もスムーズ。',
+      compatible: ['丙', '己', '辛'],
+      lucky_items: ['土製品', '植物', '黄色いアイテム'],
+      warning: '変化を恐れすぎてチャンスを逃さないよう。時には冒険も必要。'
+    },
+    '己': {
+      nature: '土の陰（育成タイプ）', 
+      element: '土',
+      personality: '畑のように豊かで、人を育てることに喜びを感じる母性的存在。',
+      strength: ['育成力', '協調性', 'サポート力', '母性', '忍耐力', '共感力'],
+      weakness: ['依存的', '優柔不断', '自己主張が弱い', '心配性', '過保護', '自己評価が低い'],
+      love: '相手を支え育てたがる。母性的な愛情深さが魅力。',
+      work: '人を育てる仕事や補佐役で力発揮。縁の下の力持ち的存在。',
+      health: '胃腸系・婦人科系に注意。ストレスが身体症状として現れやすい。',
+      money: '家族や他人のために使うことが多い。計画的な貯蓄習慣を。',
+      stress: '料理・手芸・ガーデニング・読書', 
+      aroma: ['レモン','マジョラム','フェンネル','グレープフルーツ','ペパーミント'], 
+      job: '保育士・栄養士・事務職・人事・教育関係', 
+      fortune2026: '2026年度は努力が実を結ぶ年。チームでの貢献が高く評価される。自分のことも大切にする意識を持つことが運気アップの鍵。',
+      compatible: ['戊', '丁', '壬'],
+      lucky_items: ['手作りアイテム', '家庭用品', 'ベージュ系のもの'],
+      warning: '他人のことばかり考えず、自分の人生も大切に。断る勇気も必要。'
+    },
+    '庚': {
+      nature: '金の陽（リーダー・硬質タイプ）', 
+      element: '金',
+      personality: '刀のように鋭く強い意志を持つ。正義感が強く、決断力に優れる。',
+      strength: ['決断力', '正義感', 'リーダーシップ', '実行力', '責任感', '潔さ'],
+      weakness: ['厳しすぎる', '感情表現が苦手', '頑固', '完璧主義', '冷淡', '批判的'],
+      love: '一途で誠実。感情表現は苦手だが、行動で愛を示す。',
+      work: '専門技術や管理職で力発揮。厳格な環境を好む。',
+      health: '呼吸器系・皮膚系に注意。ストレスを内に溜めがち。',
+      money: '堅実な投資を好む。無駄を嫌い、効率を重視。',
+      stress: '武道・機械作業・筋トレ・精密作業', 
+      aroma: ['サイプレス','クラリセージ','ユーカリ','ティートリー','フランキンセンス'], 
+      job: '技術者・医師・警察官・法律関係・品質管理', 
+      fortune2026: '2026年度は専門性が高く評価される年。感情面でのコミュニケーションを意識することで人間関係が円滑に。',
+      compatible: ['戊', '辛', '壬'],
+      lucky_items: ['金属製品', '白いアイテム', '精密機器'],
+      warning: '完璧主義が過ぎて周囲を疲れさせないよう。時には寛容さも必要。'
+    },
+    '辛': {
+      nature: '金の陰（美的タイプ）', 
+      element: '金',
+      personality: '宝石のように美しく洗練されている。美的センスと直感力に優れる。',
+      strength: ['美的センス', '直感力', '洗練性', '繊細さ', '品格', '芸術性'],
+      weakness: ['完璧主義', '神経質', '批判的', 'プライドが高い', '傷つきやすい', '変化を嫌う'],
+      love: '理想が高く、美しいものを求める。相手の外見も重視しがち。',
+      work: '美的センスを活かせる仕事が最適。品質にこだわる職種。',
+      health: '神経系・皮膚系が敏感。ストレスが美容面に影響しやすい。',
+      money: '美しいものへの出費が多い。投資では慎重派。',
+      stress: '手工芸・美術鑑賞・エステ・ショッピング', 
+      aroma: ['サイプレス','クラリセージ','ユーカリ','ティートリー','フランキンセンス'], 
+      job: 'ジュエリーデザイナー・美容師・品質検査・宝石商・ファッション関係', 
+      fortune2026: '2026年度は美的才能が開花する年。完璧主義を抑えて柔軟性を心がけることが開運の鍵。',
+      compatible: ['庚', '戊', '癸'],
+      lucky_items: ['アクセサリー', '美容グッズ', 'シルバーアイテム'],
+      warning: '理想が高すぎて現実を見失わないよう注意。妥協も時には必要。'
+    },
+    '壬': {
+      nature: '水の陽（包容タイプ）', 
+      element: '水',
+      personality: '大河のように雄大で包容力がある。変化を楽しみ、適応力に優れる。',
+      strength: ['適応力', '包容力', '発想力', '社交性', '柔軟性', '冒険心'],
+      weakness: ['優柔不断', '飽きやすい', '浮気性', '一貫性がない', '深みがない', '流されやすい'],
+      love: '自由を愛し、束縛を嫌う。多くの人と関わりたがる。',
+      work: '国際的な仕事や変化のある環境で力発揮。ルーティンは苦手。',
+      health: '腎臓・泌尿器系に注意。水分代謝が重要。',
+      money: '投資や投機を好む。収入の波が激しいことも。',
+      stress: '水辺での散歩・旅行・温泉・水泳', 
+      aroma: ['シダーウッド','ゼラニウム','ベチバー','ジュニパーベリー','サイプレス'], 
+      job: '商社・国際関係・メディア・旅行業・貿易', 
+      fortune2026: '2026年度は新しい環境での成功が期待できる年。計画性を持つことが重要で、変化の波を上手く乗りこなすことがカギ。',
+      compatible: ['甲', '庚', '癸'],
+      lucky_items: ['水晶', '海外のお土産', '青いアイテム'],
+      warning: '変化を求めすぎて根無し草にならないよう。時には腰を据えることも大切。'
+    },
+    '癸': {
+      nature: '水の陰（洞察タイプ）', 
+      element: '水',
+      personality: '雨や泉のように静かで深い。鋭い直感力と深い洞察力を持つ。',
+      strength: ['直感力', '洞察力', '共感力', '芸術性', '神秘性', '深い思考'],
+      weakness: ['決断力が弱い', '精神不安定', '引きこもりがち', '現実逃避', '依存的', '悲観的'],
+      love: '深く愛するが、相手の心の動きに敏感すぎて疲れることも。',
+      work: '人の心を扱う仕事や芸術分野で才能発揮。直感を活かせる職種。',
+      health: '精神面の安定が身体に直結。睡眠の質が重要。',
+      money: 'お金への興味は薄い。精神的な豊かさを重視。',
+      stress: '瞑想・芸術・読書・音楽鑑賞・入浴', 
+      aroma: ['シダーウッド','ゼラニウム','ベチバー','ジュニパーベリー','サイプレス'], 
+      job: '心理カウンセラー・研究者・占い師・アーティスト・宗教関係', 
+      fortune2026: '2026年度は内面の成長と精神的な充実が得られる年。現実とのバランスも大切にすることで更なる高みへ。',
+      compatible: ['乙', '辛', '壬'],
+      lucky_items: ['パワーストーン', '瞑想グッズ', '黒い小物'],
+      warning: '現実逃避しがちな傾向に注意。地に足をつけた生活を心がけて。'
+    }
+  };
+
+  const data = info[ten];
+
+  let colorHtml = '';
+  for(let i = 0; i < cl.length; i += 2) {
+    colorHtml += '<span class="color-box" style="background-color:' + cl[i] + '"></span>' + cl[i+1] + ' ';
+  }
+
+  document.getElementById('result').innerHTML = 
+    '<div class="jikkan-title">' + ten + ' – ' + gy + '（' + data.nature + '）</div>' +
+    
+    '<div class="section">' +
+      '<h3>🌟 基本性格</h3>' +
+      '<p>' + data.personality + '</p>' +
+    '</div>' +
+
+    '<div class="personality-grid">' +
+      '<div class="personality-item">' +
+        '<h4>✨ あなたの強み</h4>' +
+        '<ul>' + data.strength.map(function(item) { return '<li>' + item + '</li>'; }).join('') + '</ul>' +
+      '</div>' +
+      '<div class="personality-item">' +
+        '<h4>⚠️ 注意すべき点</h4>' +
+        '<ul>' + data.weakness.map(function(item) { return '<li>' + item + '</li>'; }).join('') + '</ul>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="section">' +
+      '<h3>💕 恋愛傾向</h3>' +
+      '<p>' + data.love + '</p>' +
+    '</div>' +
+
+    '<div class="section">' +
+      '<h3>💼 仕事運・適職</h3>' +
+      '<p><strong>仕事の特徴：</strong>' + data.work + '</p>' +
+      '<p><strong>具体的な適職：</strong>' + data.job + '</p>' +
+    '</div>' +
+
+    '<div class="section">' +
+      '<h3>💰 金運・金銭感覚</h3>' +
+      '<p>' + data.money + '</p>' +
+    '</div>' +
+
+    '<div class="section">' +
+      '<h3>🏥 健康運・注意点</h3>' +
+      '<p>' + data.health + '</p>' +
+    '</div>' +
+
+    '<div class="fortune-section">' +
+      '<h3>🔮 2026年度の運勢</h3>' +
+      '<p>' + data.fortune2026 + '</p>' +
+    '</div>' +
+
+    '<div class="section">' +
+      '<h3>😌 心身調和のためのライフスタイル提案</h3>' +
+      '<p><strong>おすすめの過ごし方：</strong>' + data.stress + '</p>' +
+      '<p><strong>アロマ活用法：</strong>上記のアロマを' + data.element + 'のエネルギーに合わせて使用することで、より深いリラクゼーション効果が期待できます。</p>' +
+    '</div>' +
+
+    '<div class="section" style="background: linear-gradient(135deg, #e8f5e8, #f0fff0); border-left: 4px solid #4CAF50;">' +
+      '<h3>🌸 あなた専用アロマ処方箋</h3>' +
+      '<p><strong>陰陽五行理論に基づく最適なアロマブレンド：</strong></p>' +
+      '<div class="aroma-list">' + data.aroma.map(function(item) { return '<span class="aroma-item">' + item + '</span>'; }).join('') + '</div>' +
+      '<p><small>※これらのアロマは' + data.element + 'の性質を持つあなたの心身バランスを整え、エネルギーを調和させます。</small></p>' +
+    '</div>' +
+
+    '<div class="section">' +
+      '<h3>🎨 ラッキーカラー</h3>' +
+      '<p>' + colorHtml + '</p>' +
+    '</div>' +
+
+    '<div class="lucky-item">' +
+      '<h3>🍀 開運アイテム</h3>' +
+      '<p>' + data.lucky_items.join('・') + '</p>' +
+    '</div>' +
+
+    '<div class="section">' +
+      '<h3>💫 相性の良い十干</h3>' +
+      '<p>特に相性が良いのは：<strong>' + data.compatible.join('・') + '</strong></p>' +
+    '</div>' +
+
+    '<div class="kuubou-section">' +
+      '<h3>⏰ 空亡（注意時期）</h3>' +
+      '<p><strong>あなたの空亡：</strong>' + kuubouData.type + '</p>' +
+      '<small>※空亡とは運気が不安定になりやすい時期です。重要な決断は避け、内省の時間として過ごしましょう。この時期は新しいことを始めるより、基盤を固める準備期間として活用してください。</small>' +
+    '</div>' +
+
+    '<div class="warning">' +
+      '<h3>⚡ 開運のポイント</h3>' +
+      '<p>' + data.warning + '</p>' +
+    '</div>';
+}
+
+function calculateKuubou(daysDiff) {
+  let kanshiIndex = daysDiff % 60;
+  if (kanshiIndex < 0) kanshiIndex += 60;
+  
+  let kuubouType;
+  let recentYears;
+  let nextYears;
+  
+  if (kanshiIndex >= 0 && kanshiIndex <= 9) {
+    kuubouType = '子丑空亡';
+    recentYears = '2022年・2023年';
+    nextYears = '2034年・2035年';
+  } else if (kanshiIndex >= 10 && kanshiIndex <= 19) {
+    kuubouType = '戌亥空亡';
+    recentYears = '2024年・2025年';
+    nextYears = '2036年・2037年';
+  } else if (kanshiIndex >= 20 && kanshiIndex <= 29) {
+    kuubouType = '申酉空亡';
+    recentYears = '2026年・2027年';
+    nextYears = '2038年・2039年';
+  } else if (kanshiIndex >= 30 && kanshiIndex <= 39) {
+    kuubouType = '午未空亡';
+    recentYears = '2020年・2021年';
+    nextYears = '2032年・2033年';
+  } else if (kanshiIndex >= 40 && kanshiIndex <= 49) {
+    kuubouType = '辰巳空亡';
+    recentYears = '2028年・2029年';
+    nextYears = '2040年・2041年';
+  } else {
+    kuubouType = '寅卯空亡';
+    recentYears = '2030年・2031年';
+    nextYears = '2042年・2043年';
+  }
+  
+  return {
+    type: kuubouType,
+    recentYears: recentYears,
+    nextYears: nextYears
+  };
+}
+</script>
+
+</body>
+</html>
