@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>🌸 陰陽五行アロマ カウンセラー アドバイザー</title>
+  <title>🌸 陰陽五行アロマ カウンセラー アドバイザー（バイオリズム診断つき）</title>
   <style>
     body { 
       font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif; 
@@ -163,6 +163,17 @@
   <div class="input-section">
     <p><strong>生年月日から陰陽五行とアロマの処方箋を診断</strong></p>
     <input type="date" id="birth">
+    <select id="birthHour" style="padding:12px;font-size:16px;border:2px solid #ddd;border-radius:10px;margin-left:6px;">
+      <option value="-1">生まれた時間：不明</option>
+      <option value="0">0時台</option><option value="1">1時台</option><option value="2">2時台</option>
+      <option value="3">3時台</option><option value="4">4時台</option><option value="5">5時台</option>
+      <option value="6">6時台</option><option value="7">7時台</option><option value="8">8時台</option>
+      <option value="9">9時台</option><option value="10">10時台</option><option value="11">11時台</option>
+      <option value="12">12時台</option><option value="13">13時台</option><option value="14">14時台</option>
+      <option value="15">15時台</option><option value="16">16時台</option><option value="17">17時台</option>
+      <option value="18">18時台</option><option value="19">19時台</option><option value="20">20時台</option>
+      <option value="21">21時台</option><option value="22">22時台</option><option value="23">23時台</option>
+    </select>
     <button onclick="uranai()">アロマカウンセリング開始</button>
   </div>
 
@@ -203,6 +214,8 @@ function uranai() {
   };
   
   const kuubouData = calculateKuubou(daysDiff);
+  const birthHour = parseInt(document.getElementById('birthHour').value);
+  const meishiki = calcMeishiki(y, m, d, daysDiff, birthHour);
   
   const ten = stems[jikkanIndex];
   const gy = goyou[ten];
@@ -222,7 +235,7 @@ function uranai() {
       stress: '森林浴、瞑想、自然の中での散歩', 
       aroma: ['ラベンダー','オレンジ','グレープフルーツ','ベルガモット','ペパーミント'], 
       job: '教師・講師・行政職・コンサルタント・経営者・管理職', 
-      fortune2026: '2026年度は新しいプロジェクトのリーダーを任される可能性が高い。健康管理に注意し、周囲との協調を心がけることで、大きな成果を得られる年。',
+      fortune2026: '新しい挑戦であなたのリーダーシップが輝きます。健康管理に注意し、周囲との協調を心がけることで、大きな成果を得られます。',
       compatible: ['乙', '丙', '己'],
       lucky_items: ['観葉植物', '木製アクセサリー', '緑色の文房具'],
       warning: 'プライドの高さから周囲との摩擦が生じやすい。柔軟性を持つことが開運の鍵。'
@@ -240,7 +253,7 @@ function uranai() {
       stress: '音楽鑑賞・読書・美術館巡り・ヨガ', 
       aroma: ['ラベンダー','オレンジ','グレープフルーツ','ベルガモット','ペパーミント'], 
       job: 'デザイナー・カウンセラー・翻訳家・美容関係・アーティスト', 
-      fortune2026: '2026年度は芸術的な才能が注目される年。人間関係では受け身にならず、積極的に行動することで新たな可能性が開ける。',
+      fortune2026: '芸術的な才能が注目されやすい人です。人間関係では受け身にならず、積極的に行動することで新たな可能性が開けます。',
       compatible: ['甲', '丁', '壬'],
       lucky_items: ['花', '美しいアクセサリー', 'アートブック'],
       warning: '他人に合わせすぎて本来の自分を見失わないよう注意。自分の意見を大切に。'
@@ -258,7 +271,7 @@ function uranai() {
       stress: 'スポーツ・旅行・アウトドア活動・ダンス', 
       aroma: ['ラベンダー','ローズマリー','イランイラン','パチュリ','レモングラス'], 
       job: '営業・イベント企画・司会業・芸能関係・起業家', 
-      fortune2026: '2026年度は注目を浴びる機会が多い年。健康管理と冷静な判断力が成功の鍵となる。',
+      fortune2026: '注目を浴びる場面で力を発揮します。健康管理と冷静な判断力が成功の鍵となります。',
       compatible: ['甲', '丁', '戊'],
       lucky_items: ['赤いアイテム', '太陽モチーフ', 'スポーツ用品'],
       warning: '衝動的な行動で失敗しないよう、一度立ち止まって考える習慣を。'
@@ -276,7 +289,7 @@ function uranai() {
       stress: 'アロマテラピー・読書・音楽・マッサージ', 
       aroma: ['ラベンダー','ローズマリー','イランイラン','パチュリ','レモングラス'], 
       job: '看護師・セラピスト・カフェ経営・介護士・心理カウンセラー', 
-      fortune2026: '2026年度は人とのつながりから幸運が訪れる年。自分の感情も大切にして、バランスの取れた生活を心がけて。',
+      fortune2026: '人とのつながりから幸運が訪れます。自分の感情も大切にして、バランスの取れた生活を心がけましょう。',
       compatible: ['乙', '丙', '己'],
       lucky_items: ['キャンドル', '温かい色のアイテム', 'ハーブティー'],
       warning: '自己犠牲が過ぎると疲れ果ててしまう。適度な境界線を設けることが大切。'
@@ -294,7 +307,7 @@ function uranai() {
       stress: 'ガーデニング・整理整頓・料理・散歩', 
       aroma: ['レモン','マジョラム','フェンネル','グレープフルーツ','ペパーミント'], 
       job: '公務員・経理・工場長・銀行員・不動産業', 
-      fortune2026: '2026年度は基盤固めの年。急がず着実に進むことで大きな成果を得られる。新しい環境での適応もスムーズ。',
+      fortune2026: '基盤固めが得意な人です。急がず着実に進むことで大きな成果を得られます。新しい環境への適応もスムーズです。',
       compatible: ['丙', '己', '辛'],
       lucky_items: ['土製品', '植物', '黄色いアイテム'],
       warning: '変化を恐れすぎてチャンスを逃さないよう。時には冒険も必要。'
@@ -312,7 +325,7 @@ function uranai() {
       stress: '料理・手芸・ガーデニング・読書', 
       aroma: ['レモン','マジョラム','フェンネル','グレープフルーツ','ペパーミント'], 
       job: '保育士・栄養士・事務職・人事・教育関係', 
-      fortune2026: '2026年度は努力が実を結ぶ年。チームでの貢献が高く評価される。自分のことも大切にする意識を持つことが運気アップの鍵。',
+      fortune2026: 'コツコツ積んだ努力が実を結びます。チームでの貢献が高く評価されます。自分のことも大切にする意識が運気アップの鍵。',
       compatible: ['戊', '丁', '壬'],
       lucky_items: ['手作りアイテム', '家庭用品', 'ベージュ系のもの'],
       warning: '他人のことばかり考えず、自分の人生も大切に。断る勇気も必要。'
@@ -330,7 +343,7 @@ function uranai() {
       stress: '武道・機械作業・筋トレ・精密作業', 
       aroma: ['サイプレス','クラリセージ','ユーカリ','ティートリー','フランキンセンス'], 
       job: '技術者・医師・警察官・法律関係・品質管理', 
-      fortune2026: '2026年度は専門性が高く評価される年。感情面でのコミュニケーションを意識することで人間関係が円滑に。',
+      fortune2026: '専門性が高く評価される人です。感情面でのコミュニケーションを意識することで人間関係が円滑になります。',
       compatible: ['戊', '辛', '壬'],
       lucky_items: ['金属製品', '白いアイテム', '精密機器'],
       warning: '完璧主義が過ぎて周囲を疲れさせないよう。時には寛容さも必要。'
@@ -348,7 +361,7 @@ function uranai() {
       stress: '手工芸・美術鑑賞・エステ・ショッピング', 
       aroma: ['サイプレス','クラリセージ','ユーカリ','ティートリー','フランキンセンス'], 
       job: 'ジュエリーデザイナー・美容師・品質検査・宝石商・ファッション関係', 
-      fortune2026: '2026年度は美的才能が開花する年。完璧主義を抑えて柔軟性を心がけることが開運の鍵。',
+      fortune2026: '美的才能に恵まれています。完璧主義を抑えて柔軟性を心がけることが開運の鍵です。',
       compatible: ['庚', '戊', '癸'],
       lucky_items: ['アクセサリー', '美容グッズ', 'シルバーアイテム'],
       warning: '理想が高すぎて現実を見失わないよう注意。妥協も時には必要。'
@@ -366,7 +379,7 @@ function uranai() {
       stress: '水辺での散歩・旅行・温泉・水泳', 
       aroma: ['シダーウッド','ゼラニウム','ベチバー','ジュニパーベリー','サイプレス'], 
       job: '商社・国際関係・メディア・旅行業・貿易', 
-      fortune2026: '2026年度は新しい環境での成功が期待できる年。計画性を持つことが重要で、変化の波を上手く乗りこなすことがカギ。',
+      fortune2026: '新しい環境での成功が期待できます。計画性を持ち、変化の波を上手く乗りこなすことがカギです。',
       compatible: ['甲', '庚', '癸'],
       lucky_items: ['水晶', '海外のお土産', '青いアイテム'],
       warning: '変化を求めすぎて根無し草にならないよう。時には腰を据えることも大切。'
@@ -384,7 +397,7 @@ function uranai() {
       stress: '瞑想・芸術・読書・音楽鑑賞・入浴', 
       aroma: ['シダーウッド','ゼラニウム','ベチバー','ジュニパーベリー','サイプレス'], 
       job: '心理カウンセラー・研究者・占い師・アーティスト・宗教関係', 
-      fortune2026: '2026年度は内面の成長と精神的な充実が得られる年。現実とのバランスも大切にすることで更なる高みへ。',
+      fortune2026: '内面の成長と精神的な充実を得やすい人です。現実とのバランスも大切にすることで更なる高みへ。',
       compatible: ['乙', '辛', '壬'],
       lucky_items: ['パワーストーン', '瞑想グッズ', '黒い小物'],
       warning: '現実逃避しがちな傾向に注意。地に足をつけた生活を心がけて。'
@@ -400,6 +413,7 @@ function uranai() {
 
   document.getElementById('result').innerHTML = 
     '<div class="jikkan-title">' + ten + ' – ' + gy + '（' + data.nature + '）</div>' +
+    buildMeishikiHtml(meishiki) +
     
     '<div class="section">' +
       '<h3>🌟 基本性格</h3>' +
@@ -439,7 +453,7 @@ function uranai() {
     '</div>' +
 
     '<div class="fortune-section">' +
-      '<h3>🔮 2026年度の運勢</h3>' +
+      '<h3>🔮 開運アドバイス</h3>' +
       '<p>' + data.fortune2026 + '</p>' +
     '</div>' +
 
@@ -466,16 +480,14 @@ function uranai() {
       '<p>' + data.lucky_items.join('・') + '</p>' +
     '</div>' +
 
-    '<div class="section">' +
-      '<h3>💫 相性の良い十干</h3>' +
-      '<p>特に相性が良いのは：<strong>' + data.compatible.join('・') + '</strong></p>' +
-    '</div>' +
+    
 
     '<div class="kuubou-section">' +
       '<h3>⏰ 空亡（注意時期）</h3>' +
-      '<p><strong>あなたの空亡：</strong>' + kuubouData.type + '</p>' +
+      '<p><strong>あなたの空亡：</strong>' + kuubouData.type + '（直近の空亡年：' + kuubouData.years + '）</p>' +
       '<small>※空亡とは運気が不安定になりやすい時期です。重要な決断は避け、内省の時間として過ごしましょう。この時期は新しいことを始めるより、基盤を固める準備期間として活用してください。</small>' +
     '</div>' +
+    buildBiorhythmHtml(kuubouData.kuboFirstShi, kuubouData.type, y) +
 
     '<div class="warning">' +
       '<h3>⚡ 開運のポイント</h3>' +
@@ -483,46 +495,174 @@ function uranai() {
     '</div>';
 }
 
+
+// ===== 命式（年柱・月柱・日柱）と五行バランス =====
+const K10=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const S12=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const SETSU=[6,4,6,5,6,6,7,8,8,8,7,7];
+const SHI_GOGYO=['水','土','木','木','土','火','火','土','金','金','土','水'];
+const KAN_GOGYO=['木','木','火','火','土','土','金','金','水','水'];
+function calcMeishiki(y,m,d,daysDiff,hour){
+  // 年柱（立春前は前年）
+  let yy=y;
+  if(m<2||(m===2&&d<SETSU[1])) yy=y-1;
+  const nenKan=((yy-1900)+6+600)%10, nenShi=((yy-1900)+1200)%12;
+  // 月柱（節入り前は前月）
+  let mm=m, my=y;
+  if(d<SETSU[m-1]){mm--; if(mm===0){mm=12; my--;}}
+  let yk=nenKan;
+  if(my!==y||yy!==y){ const y2=(mm>=2)?my:my-1; yk=((y2-1900)+6+600)%10; }
+  const MKB=[2,4,6,8,0];
+  const seq=(mm-2+12)%12;
+  const SHI_SEQ=[2,3,4,5,6,7,8,9,10,11,0,1];
+  const getsuKan=(MKB[yk%5]+seq)%10, getsuShi=SHI_SEQ[seq];
+  // 日柱（基準1965/3/1=甲寅：干支番号50）
+  const nichiKan=((daysDiff%10)+10)%10;
+  const nichiShi=((daysDiff%12)+2+24)%12;
+  // 時柱（生まれた時間があれば）
+  let tokiKan=null, tokiShi=null;
+  if(hour!==undefined && hour>=0){
+    const HSHI={23:0,0:0,1:1,2:1,3:2,4:2,5:3,6:3,7:4,8:4,9:5,10:5,11:6,12:6,13:7,14:7,15:8,16:8,17:9,18:9,19:10,20:10,21:11,22:11};
+    const HKB=[0,2,4,6,8];
+    tokiShi=HSHI[hour];
+    tokiKan=(HKB[nichiKan%5]+tokiShi)%10;
+  }
+  // 五行カウント（時柱があれば8文字、なければ6文字）
+  const count={'木':0,'火':0,'土':0,'金':0,'水':0};
+  [nenKan,getsuKan,nichiKan].forEach(k=>count[KAN_GOGYO[k]]++);
+  [nenShi,getsuShi,nichiShi].forEach(s=>count[SHI_GOGYO[s]]++);
+  if(tokiKan!==null){ count[KAN_GOGYO[tokiKan]]++; count[SHI_GOGYO[tokiShi]]++; }
+  return {
+    nenKan,nenShi,getsuKan,getsuShi,nichiKan,nichiShi,tokiKan,tokiShi,
+    nen:K10[nenKan]+S12[nenShi], getsu:K10[getsuKan]+S12[getsuShi], nichi:K10[nichiKan]+S12[nichiShi],
+    toki:(tokiKan!==null)?K10[tokiKan]+S12[tokiShi]:null,
+    count:count, hasToki:(tokiKan!==null)
+  };
+}
+function buildMeishikiHtml(ms){
+  const order=['木','火','土','金','水'];
+  const colors={'木':'#4CAF50','火':'#F44336','土':'#C4922A','金':'#9E9E9E','水':'#3F51B5'};
+  let max=0;
+  order.forEach(g=>{max=Math.max(max,ms.count[g]);});
+  const most=order.filter(g=>ms.count[g]===max);
+  const lack=order.filter(g=>ms.count[g]===0);
+  let h='<div class="section" style="background: linear-gradient(135deg, #eef6fb, #f0fbf6); border-left: 4px solid #4BA8C8;">';
+  h+='<h3>📜 あなたの命式表（八字）</h3>';
+  // シートと同じ並び：時柱・日柱・月柱・年柱
+  const th='padding:8px 6px;border:1px solid #b8d4e0;background:#4BA8C8;color:#fff;font-size:0.95em;';
+  const td='padding:10px 6px;border:1px solid #b8d4e0;text-align:center;font-size:1.25em;font-weight:bold;background:#fff;';
+  const tdl='padding:8px 6px;border:1px solid #b8d4e0;background:#e3f4fa;font-weight:bold;font-size:0.9em;text-align:center;';
+  h+='<table style="width:100%;border-collapse:collapse;margin:8px 0;">';
+  h+='<tr><th style="'+th+'"></th><th style="'+th+'">時柱</th><th style="'+th+'">日柱</th><th style="'+th+'">月柱</th><th style="'+th+'">年柱</th></tr>';
+  h+='<tr><td style="'+tdl+'">天干</td>'
+    +'<td style="'+td+'">'+(ms.hasToki?K10[ms.tokiKan]:'—')+'</td>'
+    +'<td style="'+td+'color:#c04040;">'+K10[ms.nichiKan]+'</td>'
+    +'<td style="'+td+'">'+K10[ms.getsuKan]+'</td>'
+    +'<td style="'+td+'">'+K10[ms.nenKan]+'</td></tr>';
+  h+='<tr><td style="'+tdl+'">地支</td>'
+    +'<td style="'+td+'">'+(ms.hasToki?S12[ms.tokiShi]:'—')+'</td>'
+    +'<td style="'+td+'">'+S12[ms.nichiShi]+'</td>'
+    +'<td style="'+td+'">'+S12[ms.getsuShi]+'</td>'
+    +'<td style="'+td+'">'+S12[ms.nenShi]+'</td></tr>';
+  h+='</table>';
+  h+='<p><small>※日柱の天干（赤）があなたの本質「日主」、日柱の干支「'+ms.nichi+'」があなたの六十干支です。'+(ms.hasToki?'':'　生まれた時間を入れると時柱も表示されます。')+'</small></p>';
+  h+='<h3 style="margin-top:14px;">⚖️ 五行バランス（'+(ms.hasToki?'八字':'六字')+'）</h3>';
+  order.forEach(g=>{
+    const n=ms.count[g];
+    let bar='';
+    for(let i=0;i<n;i++) bar+='<span style="display:inline-block;width:22px;height:14px;background:'+colors[g]+';border-radius:3px;margin-right:3px;"></span>';
+    h+='<div style="margin:4px 0;"><strong style="color:'+colors[g]+';">'+g+'：'+n+'個</strong>　'+bar+'</div>';
+  });
+  h+='<p style="margin-top:8px;">最も多い五行：<strong>'+most.join('・')+'</strong>';
+  if(lack.length>0){ h+='　／　不足している五行：<strong style="color:#c04040;">'+lack.join('・')+'</strong>（アロマで補うのがおすすめ）'; }
+  h+='</p></div>';
+  return h;
+}
+
 function calculateKuubou(daysDiff) {
   let kanshiIndex = daysDiff % 60;
   if (kanshiIndex < 0) kanshiIndex += 60;
   
-  let kuubouType;
-  let recentYears;
-  let nextYears;
+  let kuubouType, kuboFirstShi;
+  if (kanshiIndex >= 0 && kanshiIndex <= 9) { kuubouType = '子丑空亡'; kuboFirstShi = 0; }
+  else if (kanshiIndex >= 10 && kanshiIndex <= 19) { kuubouType = '戌亥空亡'; kuboFirstShi = 10; }
+  else if (kanshiIndex >= 20 && kanshiIndex <= 29) { kuubouType = '申酉空亡'; kuboFirstShi = 8; }
+  else if (kanshiIndex >= 30 && kanshiIndex <= 39) { kuubouType = '午未空亡'; kuboFirstShi = 6; }
+  else if (kanshiIndex >= 40 && kanshiIndex <= 49) { kuubouType = '辰巳空亡'; kuboFirstShi = 4; }
+  else { kuubouType = '寅卯空亡'; kuboFirstShi = 2; }
   
-  if (kanshiIndex >= 0 && kanshiIndex <= 9) {
-    kuubouType = '子丑空亡';
-    recentYears = '2022年・2023年';
-    nextYears = '2034年・2035年';
-  } else if (kanshiIndex >= 10 && kanshiIndex <= 19) {
-    kuubouType = '戌亥空亡';
-    recentYears = '2024年・2025年';
-    nextYears = '2036年・2037年';
-  } else if (kanshiIndex >= 20 && kanshiIndex <= 29) {
-    kuubouType = '申酉空亡';
-    recentYears = '2026年・2027年';
-    nextYears = '2038年・2039年';
-  } else if (kanshiIndex >= 30 && kanshiIndex <= 39) {
-    kuubouType = '午未空亡';
-    recentYears = '2020年・2021年';
-    nextYears = '2032年・2033年';
-  } else if (kanshiIndex >= 40 && kanshiIndex <= 49) {
-    kuubouType = '辰巳空亡';
-    recentYears = '2028年・2029年';
-    nextYears = '2040年・2041年';
-  } else {
-    kuubouType = '寅卯空亡';
-    recentYears = '2030年・2031年';
-    nextYears = '2042年・2043年';
-  }
-  
-  return {
-    type: kuubouType,
-    recentYears: recentYears,
-    nextYears: nextYears
-  };
+  // 空亡の年を動的計算（今年以降の直近2年）
+  const nowY = new Date().getFullYear();
+  let y1 = nowY;
+  while ((((y1 - 1900) + 1200) % 12) !== kuboFirstShi) y1++;
+  return { type: kuubouType, kuboFirstShi: kuboFirstShi, years: y1 + '年・' + (y1+1) + '年' };
 }
+
+// ===== バイオリズム統合（biorhythm-completeの内容をそのまま使用） =====
+const BIO_NAMES=['種まき','水やり','間引き','梅雨','花咲','熱中症','再トライ','収穫','晩餐','冬入り','休眠','準備'];
+const BIO_YEAR={
+ '種まき':{d:'新規開拓の年。新しいことを始めるのに最適。',s:'good'},
+ '水やり':{d:'運気上昇。努力が実を結び始める年。',s:'good'},
+ '間引き':{d:'ここで決めたことが今後を左右する重要な年。',s:'caution'},
+ '梅雨':{d:'体調不良に注意。無理をせず休息を取る年。',s:'caution'},
+ '花咲':{d:'注目の的になる年。才能が開花する時期。',s:'good',star:true},
+ '熱中症':{d:'浮つきやすい・判断ミスに注意。',s:'caution'},
+ '再トライ':{d:'再挑戦/復縁/再始動のチャンス。',s:'good',star:true},
+ '収穫':{d:'金運上昇・結実が出る。',s:'good',star:true},
+ '晩餐':{d:'成果実感・喜びを味わう。',s:'good',star:true},
+ '冬入り':{d:'孤立する年。内省と準備の時期。',s:'caution'},
+ '休眠':{d:'運気低迷。静観し力を蓄える年。',s:'caution'},
+ '準備':{d:'不運浄化。次のサイクルに向けた準備の年。',s:'normal'}
+};
+const BIO_MONTH={
+ '種まき':'新しい出会いのチャンス','水やり':'実行、挑戦が開運',
+ '間引き':'ここで決めたことが今後を左右する','梅雨':'けが、病気に注意',
+ '花咲':'あらゆる面で幸運、才能を伸ばせる','熱中症':'心に隙が出来やすい、ミス不注意',
+ '再トライ':'再挑戦のタイミング、過去の人と縁','収穫':'金運最高潮、買い物運○',
+ '晩餐':'努力が実るタイミングだが欲張るのは禁物','冬入り':'新しいことを始めてはいけない',
+ '休眠':'興味のない望んでいない事が舞い込む','準備':'前半は悪い流れ、スタートを切るなら後半'
+};
+const KUBO_FEATURES={
+ '子丑空亡':'• 真面目で責任感が強い<br>• 忍耐力と信頼性に優れる<br>• リラックスも大切にする<br>• 堅実で安定した発展を遂げる',
+ '寅卯空亡':'• 情熱的で積極的な性格<br>• リーダーシップと決断力に優れる<br>• 感情のコントロールが重要<br>• 波乱万丈だが大成する運命',
+ '辰巳空亡':'• 自由で変化を好む性格<br>• 創造性と直感力に優れる<br>• 柔軟性を活かして発展<br>• 刺激を求める冒険心',
+ '午未空亡':'• 頭脳明晰で責任感が強い<br>• 若い頃から大人びている<br>• プライドが高く完璧主義<br>• クールだが内面は繊細',
+ '申酉空亡':'• 社交的で行動力がある<br>• 明るく自己肯定感が高い<br>• 向上心が強く働き者<br>• 事業発展で成功しやすい',
+ '戌亥空亡':'• 精神性が高く思慮深い<br>• 独自の価値観とカリスマ性<br>• 穏やかそうで内面は強固<br>• 知恵を共有することで活躍'
+};
+function bioPhase(shiIdx, kuboFirst, isEven){
+  const base = isEven ? (kuboFirst - 1 + 12) % 12 : kuboFirst;
+  return BIO_NAMES[(9 + (shiIdx - base + 12) % 12) % 12];
+}
+function buildBiorhythmHtml(kuboFirst, kuboType, birthYear){
+  const isEven = (birthYear % 2 === 0);
+  const parityLabel = isEven ? '偶数年生まれ' : '奇数年生まれ';
+  let h = '<div class="section" style="background: linear-gradient(135deg, #f3eefc, #fdf6ff); border-left: 4px solid #9575CD;">';
+  h += '<h3>🌟 あなたの空亡の特性</h3><p>' + (KUBO_FEATURES[kuboType]||'') + '</p></div>';
+  // 年間
+  h += '<div class="section"><h3>📅 年間バイオリズム（' + parityLabel + '）</h3>';
+  const nowY = new Date().getFullYear();
+  for(let y = nowY; y < nowY + 12; y++){
+    const shi = ((y - 1900) + 1200) % 12;
+    const ph = bioPhase(shi, kuboFirst, isEven);
+    const info = BIO_YEAR[ph];
+    const col = info.s==='good' ? '#e8f5e9' : info.s==='caution' ? '#fdecea' : '#f5f5f5';
+    const bc  = info.s==='good' ? '#4CAF50' : info.s==='caution' ? '#e57373' : '#9e9e9e';
+    h += '<div style="background:'+col+';border-left:4px solid '+bc+';border-radius:8px;padding:8px 12px;margin:6px 0;">'
+       + '<strong>'+y+'年　'+ph+(info.star?' ⭐':'')+'</strong>　<span style="font-size:0.9em;">'+info.d+'</span></div>';
+  }
+  h += '</div>';
+  // 月間
+  h += '<div class="section"><h3>🗓 月間バイオリズム（毎年の傾向・' + parityLabel + '）</h3>';
+  for(let mo = 1; mo <= 12; mo++){
+    const mShi = (mo === 12) ? 0 : mo; // 1月=丑(1)〜11月=亥(11)、12月=子(0)
+    const ph = bioPhase(mShi, kuboFirst, isEven);
+    h += '<div style="padding:4px 10px;border-bottom:1px dashed #ddd;font-size:0.95em;"><strong>'+mo+'月 '+ph+'</strong>：'+BIO_MONTH[ph]+'</div>';
+  }
+  h += '<p><small>※月の区切りは節入り（各月4〜8日頃）を目安にしてください。</small></p></div>';
+  return h;
+}
+
 </script>
 
 </body>
