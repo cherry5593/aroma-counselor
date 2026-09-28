@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>🌸 陰陽五行アロマ カウンセラー アドバイザー（バイオリズム診断つき）</title>
+  <style>
+    body { 
+      font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif; 
+      padding: 20px; 
+      max-width: 800px; 
+      margin: auto; 
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+      min-height: 100vh;
+      color: #333;
+    }
+    .container {
+      background: rgba(255,255,255,0.95);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    h1 { 
+      text-align: center; 
+      color: #4a5568; 
+      margin-bottom: 10px;
+      font-size: 1.8em;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      line-height: 1.3;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 1.1em;
+    }
+    .input-section {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+    input[type="date"] { 
+      font-size: 1.2rem; 
+      padding: 10px 15px; 
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+    button { 
+      font-size: 1.2rem; 
+      padding: 10px 25px; 
+      background: linear-gradient(45deg, #ff9a9e, #fecfef);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover { transform: translateY(-2px); }
+    .result { 
+      margin-top: 30px; 
+      padding: 25px; 
+      border: none;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .jikkan-title {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: linear-gradient(45deg, #ff6b6b, #ffa726);
+      color: white;
+      border-radius: 10px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    .section {
+      margin: 20px 0;
+      padding: 15px;
+      border-left: 4px solid #ff9a9e;
+      background: #f8f9fa;
+      border-radius: 0 8px 8px 0;
+    }
+    .section h3 {
+      margin: 0 0 10px 0;
+      color: #4a5568;
+      font-size: 1.3em;
+    }
+    .personality-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 15px 0;
+    }
+    .personality-item {
+      padding: 10px;
+      background: #e8f4f8;
+      border-radius: 8px;
+      border-left: 3px solid #ff9a9e;
+    }
+    .color-box { 
+      display: inline-block; 
+      width: 20px; 
+      height: 20px; 
+      margin-right: 8px; 
+      vertical-align: middle; 
+      border: 2px solid #999; 
+      border-radius: 3px;
+    }
+    .aroma-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .aroma-item {
+      background: #e6fffa;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.9em;
+      border: 1px solid #38b2ac;
+    }
+    .fortune-section {
+      background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+      color: #2d3436;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    .warning {
+      background: #fed7d7;
+      border: 1px solid #fc8181;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+    .lucky-item {
+      background: #c6f6d5;
+      border: 1px solid #68d391;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+    .kuubou-section {
+      background: linear-gradient(135deg, #e8e8ff, #f0f0ff);
+      border: 2px solid #9999ff;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    @media (max-width: 600px) {
+      .personality-grid { grid-template-columns: 1fr; }
+      .container { padding: 15px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🌸 陰陽五行 アロマ カウンセラー<br>アドバイザー</h1>
+  <p class="subtitle">古代中国の陰陽五行思想とアロマテラピーを融合した<br>本格的なカウンセリング診断</p>
+  
+  <div class="input-section">
+    <p><strong>生年月日から陰陽五行とアロマの処方箋を診断</strong></p>
+    <input type="date" id="birth">
+    <select id="birthHour" style="padding:12px;font-size:16px;border:2px solid #ddd;border-radius:10px;margin-left:6px;">
+      <option value="-1">生まれた時間：不明</option>
+      <option value="0">0時台</option><option value="1">1時台</option><option value="2">2時台</option>
+      <option value="3">3時台</option><option value="4">4時台</option><option value="5">5時台</option>
+      <option value="6">6時台</option><option value="7">7時台</option><option value="8">8時台</option>
+      <option value="9">9時台</option><option value="10">10時台</option><option value="11">11時台</option>
+      <option value="12">12時台</option><option value="13">13時台</option><option value="14">14時台</option>
+      <option value="15">15時台</option><option value="16">16時台</option><option value="17">17時台</option>
+      <option value="18">18時台</option><option value="19">19時台</option><option value="20">20時台</option>
+      <option value="21">21時台</option><option value="22">22時台</option><option value="23">23時台</option>
+    </select>
+    <select id="gender" style="padding:12px;font-size:16px;border:2px solid #ddd;border-radius:10px;margin-left:6px;">
+      <option value="">性別を選択</option>
+      <option value="female">女性</option>
+      <option value="male">男性</option>
+    </select>
+    <button onclick="uranai()">アロマカウンセリング開始</button>
+  </div>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+function uranai() {
+  const val = document.getElementById('birth').value;
+  if (!val) {
+    alert('生年月日を入力してください');
+    return;
+  }
+  const gender = document.getElementById('gender').value;
+  if (!gender) {
+    alert('性別を選択してください');
+    return;
+  }
+  
+  const dateObj = new Date(val);
+  const y = dateObj.getFullYear();
+  const m = dateObj.getMonth() + 1;
+  const d = dateObj.getDate();
+  
+  // 正確な十干計算（日柱）
+  const baseDate = new Date(1965, 2, 1);
+  const targetDate = new Date(y, m - 1, d);
+  const daysDiff = Math.floor((targetDate - baseDate) / (1000 * 60 * 60 * 24));
+  
+  let jikkanIndex = daysDiff % 10;
+  if (jikkanIndex < 0) {
+      jikkanIndex += 10;
+  }
+  
+  const stems = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+  const goyou = {'甲':'木','乙':'木','丙':'火','丁':'火','戊':'土','己':'土','庚':'金','辛':'金','壬':'水','癸':'水'};
+  const colors = {
+    '木':['#2196F3','青','#4CAF50','緑','#81D4FA','水色','#9CCC65','黄緑'],
+    '火':['#F44336','赤','#EC407A','ピンク','#FF9800','オレンジ'],
+    '土':['#FFEB3B','黄色','#F5DEB3','ベージュ','#FFF44F','レモン色'],
+    '金':['#FFFFFF','白','#C0C0C0','シルバー','#D3D3D3','ライトグレー','#FFFFF0','アイボリー'],
+    '水':['#000000','黒','#1A237E','紺','#9C27B0','紫','#36454F','チャコールグレー']
+  };
+  
+  const kuubouData = calculateKuubou(daysDiff);
+  const birthHour = parseInt(document.getElementById('birthHour').value);
+  const meishiki = calcMeishiki(y, m, d, daysDiff, birthHour);
+  
+  const ten = stems[jikkanIndex];
+  const gy = goyou[ten];
+  const cl = colors[gy];
+
+  const info = {
+    '甲': {
+      nature: '木の陽（リーダータイプ）', 
+      element: '木',
+      personality: '真っ直ぐで力強く、天然のリーダー気質。正義感が強く、周囲を引っ張る存在。',
+      strength: ['強いリーダーシップ', '成長志向', '正義感', '行動力', 'まっすぐな性格', '責任感'],
+      weakness: ['頑固', '融通性に欠ける', 'プライドが高い', '他者の意見を聞かない', '短気', '完璧主義'],
+      love: {f:'一途でまっすぐ。尊敬できる相手に惹かれ、自分も対等でいたいタイプ。守られるより、共に高め合う関係で輝きます。', m:'一途で頼れる存在。パートナーを守り、リードしたい気持ちが強い。長く安定した関係を築きます。'},
+      work: '管理職やチームリーダーに向く。自分のペースで進められる仕事が最適。',
+      health: 'ストレスを溜めやすく、肝臓系に注意。定期的な運動が必要。',
+      money: '堅実な投資を好む。無駄遣いは少ないが、ケチと思われることも。',
+      stress: '森林浴、瞑想、自然の中での散歩', 
+      aroma: ['ラベンダー','オレンジ','グレープフルーツ','ベルガモット','ペパーミント'], 
+      job: '教師・講師・行政職・コンサルタント・経営者・管理職', 
+      fortune2026: '新しい挑戦であなたのリーダーシップが輝きます。健康管理に注意し、周囲との協調を心がけることで、大きな成果を得られます。',
+      compatible: ['乙', '丙', '己'],
+      lucky_items: ['観葉植物', '木製アクセサリー', '緑色の文房具'],
+      warning: 'プライドの高さから周囲との摩擦が生じやすい。柔軟性を持つことが開運の鍵。'
+    },
+    '乙': {
+      nature: '木の陰（調和タイプ）', 
+      element: '木',
+      personality: 'しなやかで美しく、調和を重んじる平和主義者。芸術的センスに優れる。',
+      strength: ['協調性', '芸術的センス', '優美さ', '思いやり', '柔軟性', '美的感覚'],
+      weakness: ['優柔不断', '傷つきやすい', '依存的', '自己主張が弱い', '変化を恐れる', '完璧主義'],
+      love: {f:'柔らかく愛らしい雰囲気で好かれやすい。相手に合わせすぎて疲れることも。自分の気持ちを言葉にすると関係が深まります。', m:'優しく気配り上手。相手の気持ちを察して寄り添うタイプ。優柔不断にならないよう、大事な場面では決断を。'},
+      work: 'クリエイティブな分野で才能発揮。チームワークを活かせる環境が最適。',
+      health: '神経系が敏感。ストレスによる体調不良に注意。良質な睡眠が重要。',
+      money: '感情で買い物をしがち。美しいものへの出費が多い。計画的な貯蓄を。',
+      stress: '音楽鑑賞・読書・美術館巡り・ヨガ', 
+      aroma: ['ラベンダー','オレンジ','グレープフルーツ','ベルガモット','ペパーミント'], 
+      job: 'デザイナー・カウンセラー・翻訳家・美容関係・アーティスト', 
+      fortune2026: '芸術的な才能が注目されやすい人です。人間関係では受け身にならず、積極的に行動することで新たな可能性が開けます。',
+      compatible: ['甲', '丁', '壬'],
+      lucky_items: ['花', '美しいアクセサリー', 'アートブック'],
+      warning: '他人に合わせすぎて本来の自分を見失わないよう注意。自分の意見を大切に。'
+    },
+    '丙': {
+      nature: '火の陽（カリスマタイプ）', 
+      element: '火',
+      personality: '太陽のように明るく情熱的。天然のカリスマ性で人を惹きつける。',
+      strength: ['カリスマ性', '行動力', '明るさ', '情熱', 'リーダーシップ', '積極性'],
+      weakness: ['飽きやすい', '衝動的', '短気', '注意散漫', '継続力不足', '自己中心的'],
+      love: {f:'明るく華やかで、恋愛でも主役になりやすい。情熱的だが、熱しやすく冷めやすい面も。', m:'情熱的で積極的にアプローチ。主導権を握りたがり、気が多いと思われることも。誠実さを意識して。'},
+      work: '人前に出る仕事や営業職で力発揮。ルーティンワークは苦手。',
+      health: '心臓・血圧系に注意。興奮しやすく、疲労を溜めがち。',
+      money: '衝動買いが多い。投資では感情的になりやすく、ギャンブル性のあるものは避けて。',
+      stress: 'スポーツ・旅行・アウトドア活動・ダンス', 
+      aroma: ['ラベンダー','ローズマリー','イランイラン','パチュリ','レモングラス'], 
+      job: '営業・イベント企画・司会業・芸能関係・起業家', 
+      fortune2026: '注目を浴びる場面で力を発揮します。健康管理と冷静な判断力が成功の鍵となります。',
+      compatible: ['甲', '丁', '戊'],
+      lucky_items: ['赤いアイテム', '太陽モチーフ', 'スポーツ用品'],
+      warning: '衝動的な行動で失敗しないよう、一度立ち止まって考える習慣を。'
+    },
+    '丁': {
+      nature: '火の陰（癒しタイプ）', 
+      element: '火',
+      personality: 'ろうそくのように優しく温かい。人を癒し、支える存在。',
+      strength: ['思いやり', '共感力', '癒し力', '優しさ', '忍耐力', '奉仕精神'],
+      weakness: ['自己主張が苦手', '依存的', '優柔不断', 'ストレスを溜めやすい', '境界線が曖昧', '自己犠牲的'],
+      love: {f:'献身的で一途。相手を支えることに喜びを感じる。尽くしすぎて自分をすり減らさないように。', m:'繊細で思いやり深い。静かに相手を想い続けるタイプ。共依存にならないよう適度な距離感を。'},
+      work: '人をサポートする仕事が天職。チームの調和役として重宝される。',
+      health: '神経系・胃腸系が弱い。ストレスが体調に直結しやすい。',
+      money: '他人のために使うことが多い。自分のための貯蓄も忘れずに。',
+      stress: 'アロマテラピー・読書・音楽・マッサージ', 
+      aroma: ['ラベンダー','ローズマリー','イランイラン','パチュリ','レモングラス'], 
+      job: '看護師・セラピスト・カフェ経営・介護士・心理カウンセラー', 
+      fortune2026: '人とのつながりから幸運が訪れます。自分の感情も大切にして、バランスの取れた生活を心がけましょう。',
+      compatible: ['乙', '丙', '己'],
+      lucky_items: ['キャンドル', '温かい色のアイテム', 'ハーブティー'],
+      warning: '自己犠牲が過ぎると疲れ果ててしまう。適度な境界線を設けることが大切。'
+    },
+    '戊': {
+      nature: '土の陽（安定タイプ）', 
+      element: '土',
+      personality: '大地のように安定感があり、信頼できる存在。現実的で責任感が強い。',
+      strength: ['安定感', '責任感', '現実的', '信頼性', '忍耐力', '包容力'],
+      weakness: ['変化を嫌う', '頑固', '保守的', '行動が遅い', '柔軟性不足', '心配性'],
+      love: {f:'包容力があり、安定した関係を求める。家庭を大切にし、周囲から頼られる存在。', m:'誠実で家庭を大切にする。結婚願望が強く、どっしり構えて家族を守るタイプ。'},
+      work: '長期的なプロジェクトや組織運営に向く。安定した職場を好む。',
+      health: '消化器系に注意。運動不足になりがち。規則正しい生活が重要。',
+      money: '堅実な資産形成が得意。無駄遣いは少ないが、投資チャンスを逃すことも。',
+      stress: 'ガーデニング・整理整頓・料理・散歩', 
+      aroma: ['レモン','マジョラム','フェンネル','グレープフルーツ','ペパーミント'], 
+      job: '公務員・経理・工場長・銀行員・不動産業', 
+      fortune2026: '基盤固めが得意な人です。急がず着実に進むことで大きな成果を得られます。新しい環境への適応もスムーズです。',
+      compatible: ['丙', '己', '辛'],
+      lucky_items: ['土製品', '植物', '黄色いアイテム'],
+      warning: '変化を恐れすぎてチャンスを逃さないよう。時には冒険も必要。'
+    },
+    '己': {
+      nature: '土の陰（育成タイプ）', 
+      element: '土',
+      personality: '畑のように豊かで、人を育てることに喜びを感じる母性的存在。',
+      personalityM: '畑のように豊かで、人を育てることに喜びを感じる包容力のある存在。',
+      strength: ['育成力', '協調性', 'サポート力', '母性', '忍耐力', '共感力'],
+      strengthM: ['育成力', '協調性', 'サポート力', '包容力', '忍耐力', '共感力'],
+      weakness: ['依存的', '優柔不断', '自己主張が弱い', '心配性', '過保護', '自己評価が低い'],
+      love: {f:'相手を支え育てる、母性的な愛情深さが魅力。世話を焼きすぎないのが円満のコツ。', m:'面倒見がよく、相手を大切に育むタイプ。穏やかで家庭的な愛情を注ぎます。'},
+      work: '人を育てる仕事や補佐役で力発揮。縁の下の力持ち的存在。',
+      health: '胃腸系・婦人科系に注意。ストレスが身体症状として現れやすい。',
+      healthM: '胃腸系に注意。ストレスが身体症状として現れやすい。',
+      money: '家族や他人のために使うことが多い。計画的な貯蓄習慣を。',
+      stress: '料理・手芸・ガーデニング・読書', 
+      aroma: ['レモン','マジョラム','フェンネル','グレープフルーツ','ペパーミント'], 
+      job: '保育士・栄養士・事務職・人事・教育関係', 
+      fortune2026: 'コツコツ積んだ努力が実を結びます。チームでの貢献が高く評価されます。自分のことも大切にする意識が運気アップの鍵。',
+      compatible: ['戊', '丁', '壬'],
+      lucky_items: ['手作りアイテム', '家庭用品', 'ベージュ系のもの'],
+      warning: '他人のことばかり考えず、自分の人生も大切に。断る勇気も必要。'
+    },
+    '庚': {
+      nature: '金の陽（リーダー・硬質タイプ）', 
+      element: '金',
+      personality: '刀のように鋭く強い意志を持つ。正義感が強く、決断力に優れる。',
+      strength: ['決断力', '正義感', 'リーダーシップ', '実行力', '責任感', '潔さ'],
+      weakness: ['厳しすぎる', '感情表現が苦手', '頑固', '完璧主義', '冷淡', '批判的'],
+      love: {f:'さっぱりとして芯が強い。甘えるのは苦手だが、信頼した相手には一途で誠実。', m:'一途で誠実。感情表現は苦手だが、行動で愛を示す。'},
+      work: '専門技術や管理職で力発揮。厳格な環境を好む。',
+      health: '呼吸器系・皮膚系に注意。ストレスを内に溜めがち。',
+      money: '堅実な投資を好む。無駄を嫌い、効率を重視。',
+      stress: '武道・機械作業・筋トレ・精密作業', 
+      aroma: ['サイプレス','クラリセージ','ユーカリ','ティートリー','フランキンセンス'], 
+      job: '技術者・医師・警察官・法律関係・品質管理', 
+      fortune2026: '専門性が高く評価される人です。感情面でのコミュニケーションを意識することで人間関係が円滑になります。',
+      compatible: ['戊', '辛', '壬'],
+      lucky_items: ['金属製品', '白いアイテム', '精密機器'],
+      warning: '完璧主義が過ぎて周囲を疲れさせないよう。時には寛容さも必要。'
+    },
+    '辛': {
+      nature: '金の陰（美的タイプ）', 
+      element: '金',
+      personality: '宝石のように美しく洗練されている。美的センスと直感力に優れる。',
+      strength: ['美的センス', '直感力', '洗練性', '繊細さ', '品格', '芸術性'],
+      weakness: ['完璧主義', '神経質', '批判的', 'プライドが高い', '傷つきやすい', '変化を嫌う'],
+      love: {f:'美意識が高く、理想の恋愛を追い求める。相手に求める条件が厳しくなりがち。', m:'センスがよく、相手の外見や品の良さも重視。デリケートで傷つきやすい面も。'},
+      work: '美的センスを活かせる仕事が最適。品質にこだわる職種。',
+      health: '神経系・皮膚系が敏感。ストレスが美容面に影響しやすい。',
+      money: '美しいものへの出費が多い。投資では慎重派。',
+      stress: '手工芸・美術鑑賞・エステ・ショッピング', 
+      aroma: ['サイプレス','クラリセージ','ユーカリ','ティートリー','フランキンセンス'], 
+      job: 'ジュエリーデザイナー・美容師・品質検査・宝石商・ファッション関係', 
+      fortune2026: '美的才能に恵まれています。完璧主義を抑えて柔軟性を心がけることが開運の鍵です。',
+      compatible: ['庚', '戊', '癸'],
+      lucky_items: ['アクセサリー', '美容グッズ', 'シルバーアイテム'],
+      warning: '理想が高すぎて現実を見失わないよう注意。妥協も時には必要。'
+    },
+    '壬': {
+      nature: '水の陽（包容タイプ）', 
+      element: '水',
+      personality: '大河のように雄大で包容力がある。変化を楽しみ、適応力に優れる。',
+      strength: ['適応力', '包容力', '発想力', '社交性', '柔軟性', '冒険心'],
+      weakness: ['優柔不断', '飽きやすい', '浮気性', '一貫性がない', '深みがない', '流されやすい'],
+      love: {f:'自由を愛し、束縛を嫌う。友達のように何でも話せる関係が長続きの秘訣。', m:'自由でおおらか、社交的でモテやすい。束縛を嫌うため、自由を認め合える相手が合う。'},
+      work: '国際的な仕事や変化のある環境で力発揮。ルーティンは苦手。',
+      health: '腎臓・泌尿器系に注意。水分代謝が重要。',
+      money: '投資や投機を好む。収入の波が激しいことも。',
+      stress: '水辺での散歩・旅行・温泉・水泳', 
+      aroma: ['シダーウッド','ゼラニウム','ベチバー','ジュニパーベリー','サイプレス'], 
+      job: '商社・国際関係・メディア・旅行業・貿易', 
+      fortune2026: '新しい環境での成功が期待できます。計画性を持ち、変化の波を上手く乗りこなすことがカギです。',
+      compatible: ['甲', '庚', '癸'],
+      lucky_items: ['水晶', '海外のお土産', '紺色のアイテム'],
+      warning: '変化を求めすぎて根無し草にならないよう。時には腰を据えることも大切。'
+    },
+    '癸': {
+      nature: '水の陰（洞察タイプ）', 
+      element: '水',
+      personality: '雨や泉のように静かで深い。鋭い直感力と深い洞察力を持つ。',
+      strength: ['直感力', '洞察力', '共感力', '芸術性', '神秘性', '深い思考'],
+      weakness: ['決断力が弱い', '精神不安定', '引きこもりがち', '現実逃避', '依存的', '悲観的'],
+      love: {f:'情が深く、深く愛するタイプ。相手の心の動きに敏感すぎて疲れることも。', m:'繊細で優しく、相手の気持ちを深く理解する。思い悩みすぎず、素直に気持ちを伝えて。'},
+      work: '人の心を扱う仕事や芸術分野で才能発揮。直感を活かせる職種。',
+      health: '精神面の安定が身体に直結。睡眠の質が重要。',
+      money: 'お金への興味は薄い。精神的な豊かさを重視。',
+      stress: '瞑想・芸術・読書・音楽鑑賞・入浴', 
+      aroma: ['シダーウッド','ゼラニウム','ベチバー','ジュニパーベリー','サイプレス'], 
+      job: '心理カウンセラー・研究者・占い師・アーティスト・宗教関係', 
+      fortune2026: '内面の成長と精神的な充実を得やすい人です。現実とのバランスも大切にすることで更なる高みへ。',
+      compatible: ['乙', '辛', '壬'],
+      lucky_items: ['パワーストーン', '瞑想グッズ', '黒い小物'],
+      warning: '現実逃避しがちな傾向に注意。地に足をつけた生活を心がけて。'
+    }
+  };
+
+  const data = info[ten];
+
+  let colorHtml = '';
+  for(let i = 0; i < cl.length; i += 2) {
+    colorHtml += '<span class="color-box" style="background-color:' + cl[i] + '"></span>' + cl[i+1] + ' ';
+  }
+
+  document.getElementById('result').innerHTML = 
+    '<div class="jikkan-title">' + ten + ' – ' + gy + '（' + data.nature + '）</div>' +
+    buildMeishikiHtml(meishiki) +
+    
+    '<div class="section">' +
+      '<h3>🌟 基本性格</h3>' +
+      '<p>' + ((gender==='male' && data.personalityM) ? data.personalityM : data.personality) + '</p>' +
+    '</div>' +
+
+    '<div class="personality-grid">' +
+      '<div class="personality-item">' +
+        '<h4>✨ あなたの強み</h4>' +
+        '<ul>' + ((gender==='male' && data.strengthM) ? data.strengthM : data.strength).map(function(item) { return '<li>' + item + '</li>'; }).join('') + '</ul>' +
+      '</div>' +
+      '<div class="personality-item">' +
+        '<h4>⚠️ 注意すべき点</h4>' +
+        '<ul>' + data.weakness.map(function(item) { return '<li>' + item + '</li>'; }).join('') + '</ul>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="section">' +
+      '<h3>💕 恋愛傾向（' + (gender==='male'?'男性':'女性') + '）</h3>' +
+      '<p>' + data.love[gender==='male'?'m':'f'] + '</p>' +
+    '</div>' +
+
+    '<div class="section">' +
+      '<h3>💼 仕事運・適職</h3>' +
+      '<p><strong>仕事の特徴：</strong>' + data.work + '</p>' +
+      '<p><strong>具体的な適職：</strong>' + data.job + '</p>' +
+    '</div>' +
+
+    '<div class="section">' +
+      '<h3>💰 金運・金銭感覚</h3>' +
+      '<p>' + data.money + '</p>' +
+    '</div>' +
+
+    '<div class="section">' +
+      '<h3>🏥 健康運・注意点</h3>' +
+      '<p>' + ((gender==='male' && data.healthM) ? data.healthM : data.health) + '</p>' +
+    '</div>' +
+
+    '<div class="fortune-section">' +
+      '<h3>🔮 開運アドバイス</h3>' +
+      '<p>' + data.fortune2026 + '</p>' +
+    '</div>' +
+
+    '<div class="section">' +
+      '<h3>😌 心身調和のためのライフスタイル提案</h3>' +
+      '<p><strong>ストレス解消法：</strong>' + data.stress + '</p>' +
+      '<p><strong>アロマ活用法：</strong>上記のアロマを' + data.element + 'のエネルギーに合わせて使用することで、より深いリラクゼーション効果が期待できます。</p>' +
+    '</div>' +
+
+    '<div class="section" style="background: linear-gradient(135deg, #e8f5e8, #f0fff0); border-left: 4px solid #4CAF50;">' +
+      '<h3>🌸 あなた専用アロマ処方箋</h3>' +
+      '<p><strong>陰陽五行理論に基づく最適なアロマブレンド：</strong></p>' +
+      '<div class="aroma-list">' + data.aroma.map(function(item) { return '<span class="aroma-item">' + item + '</span>'; }).join('') + '</div>' +
+      '<p><small>※これらのアロマは' + data.element + 'の性質を持つあなたの心身バランスを整え、エネルギーを調和させます。</small></p>' +
+    '</div>' +
+
+    '<div class="section">' +
+      '<h3>🎨 ラッキーカラー</h3>' +
+      '<p>' + colorHtml + '</p>' +
+    '</div>' +
+
+    '<div class="lucky-item">' +
+      '<h3>🍀 ラッキーアイテム</h3>' +
+      '<p>' + data.lucky_items.join('・') + '</p>' +
+    '</div>' +
+
+    
+
+    '<div class="kuubou-section">' +
+      '<h3>⏰ 空亡（注意時期）</h3>' +
+      '<p><strong>あなたの空亡：</strong>' + kuubouData.type + '（直近の空亡年：' + kuubouData.years + '）</p>' +
+      '<small>※空亡とは運気が不安定になりやすい時期です。重要な決断は避け、内省の時間として過ごしましょう。この時期は新しいことを始めるより、基盤を固める準備期間として活用してください。</small>' +
+    '</div>' +
+    buildBiorhythmHtml(kuubouData.kuboFirstShi, kuubouData.type, y) +
+
+    '<div class="warning">' +
+      '<h3>⚡ 開運のポイント</h3>' +
+      '<p>' + data.warning + '</p>' +
+    '</div>';
+}
+
+
+// ===== 命式（年柱・月柱・日柱）と五行バランス =====
+const K10=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const S12=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const SETSU=[6,4,6,5,6,6,7,8,8,8,7,7];
+const SHI_GOGYO=['水','土','木','木','土','火','火','土','金','金','土','水'];
+const KAN_GOGYO=['木','木','火','火','土','土','金','金','水','水'];
+function calcMeishiki(y,m,d,daysDiff,hour){
+  // 年柱（立春前は前年）
+  let yy=y;
+  if(m<2||(m===2&&d<SETSU[1])) yy=y-1;
+  const nenKan=((yy-1900)+6+600)%10, nenShi=((yy-1900)+1200)%12;
+  // 月柱（節入り前は前月）
+  let mm=m, my=y;
+  if(d<SETSU[m-1]){mm--; if(mm===0){mm=12; my--;}}
+  let yk=nenKan;
+  if(my!==y||yy!==y){ const y2=(mm>=2)?my:my-1; yk=((y2-1900)+6+600)%10; }
+  const MKB=[2,4,6,8,0];
+  const seq=(mm-2+12)%12;
+  const SHI_SEQ=[2,3,4,5,6,7,8,9,10,11,0,1];
+  const getsuKan=(MKB[yk%5]+seq)%10, getsuShi=SHI_SEQ[seq];
+  // 日柱（基準1965/3/1=甲寅：干支番号50）
+  const nichiKan=((daysDiff%10)+10)%10;
+  const nichiShi=((daysDiff%12)+2+24)%12;
+  // 時柱（生まれた時間があれば）
+  let tokiKan=null, tokiShi=null;
+  if(hour!==undefined && hour>=0){
+    const HSHI={23:0,0:0,1:1,2:1,3:2,4:2,5:3,6:3,7:4,8:4,9:5,10:5,11:6,12:6,13:7,14:7,15:8,16:8,17:9,18:9,19:10,20:10,21:11,22:11};
+    const HKB=[0,2,4,6,8];
+    tokiShi=HSHI[hour];
+    tokiKan=(HKB[nichiKan%5]+tokiShi)%10;
+  }
+  // 五行カウント（時柱があれば8文字、なければ6文字）
+  const count={'木':0,'火':0,'土':0,'金':0,'水':0};
+  [nenKan,getsuKan,nichiKan].forEach(k=>count[KAN_GOGYO[k]]++);
+  [nenShi,getsuShi,nichiShi].forEach(s=>count[SHI_GOGYO[s]]++);
+  if(tokiKan!==null){ count[KAN_GOGYO[tokiKan]]++; count[SHI_GOGYO[tokiShi]]++; }
+  return {
+    nenKan,nenShi,getsuKan,getsuShi,nichiKan,nichiShi,tokiKan,tokiShi,
+    nen:K10[nenKan]+S12[nenShi], getsu:K10[getsuKan]+S12[getsuShi], nichi:K10[nichiKan]+S12[nichiShi],
+    toki:(tokiKan!==null)?K10[tokiKan]+S12[tokiShi]:null,
+    count:count, hasToki:(tokiKan!==null)
+  };
+}
+function buildMeishikiHtml(ms){
+  const order=['木','火','土','金','水'];
+  const colors={'木':'#4CAF50','火':'#F44336','土':'#C4922A','金':'#9E9E9E','水':'#3F51B5'};
+  let max=0;
+  order.forEach(g=>{max=Math.max(max,ms.count[g]);});
+  const most=order.filter(g=>ms.count[g]===max);
+  const lack=order.filter(g=>ms.count[g]===0);
+  let h='<div class="section" style="background: linear-gradient(135deg, #eef6fb, #f0fbf6); border-left: 4px solid #4BA8C8;">';
+  h+='<h3>📜 あなたの命式表（八字）</h3>';
+  // シートと同じ並び：時柱・日柱・月柱・年柱
+  const th='padding:8px 6px;border:1px solid #b8d4e0;background:#4BA8C8;color:#fff;font-size:0.95em;';
+  const td='padding:10px 6px;border:1px solid #b8d4e0;text-align:center;font-size:1.25em;font-weight:bold;background:#fff;';
+  const tdl='padding:8px 6px;border:1px solid #b8d4e0;background:#e3f4fa;font-weight:bold;font-size:0.9em;text-align:center;';
+  h+='<table style="width:100%;border-collapse:collapse;margin:8px 0;">';
+  h+='<tr><th style="'+th+'"></th><th style="'+th+'">時柱</th><th style="'+th+'">日柱</th><th style="'+th+'">月柱</th><th style="'+th+'">年柱</th></tr>';
+  h+='<tr><td style="'+tdl+'">天干</td>'
+    +'<td style="'+td+'">'+(ms.hasToki?K10[ms.tokiKan]:'—')+'</td>'
+    +'<td style="'+td+'color:#c04040;">'+K10[ms.nichiKan]+'</td>'
+    +'<td style="'+td+'">'+K10[ms.getsuKan]+'</td>'
+    +'<td style="'+td+'">'+K10[ms.nenKan]+'</td></tr>';
+  h+='<tr><td style="'+tdl+'">地支</td>'
+    +'<td style="'+td+'">'+(ms.hasToki?S12[ms.tokiShi]:'—')+'</td>'
+    +'<td style="'+td+'">'+S12[ms.nichiShi]+'</td>'
+    +'<td style="'+td+'">'+S12[ms.getsuShi]+'</td>'
+    +'<td style="'+td+'">'+S12[ms.nenShi]+'</td></tr>';
+  h+='</table>';
+  h+='<p><small>※日柱の天干（赤）があなたの本質「日主」、日柱の干支「'+ms.nichi+'」があなたの六十干支です。'+(ms.hasToki?'':'　生まれた時間を入れると時柱も表示されます。')+'</small></p>';
+  h+='<h3 style="margin-top:14px;">⚖️ 五行バランス（'+(ms.hasToki?'八字':'六字')+'）</h3>';
+  order.forEach(g=>{
+    const n=ms.count[g];
+    let bar='';
+    for(let i=0;i<n;i++) bar+='<span style="display:inline-block;width:22px;height:14px;background:'+colors[g]+';border-radius:3px;margin-right:3px;"></span>';
+    h+='<div style="margin:4px 0;"><strong style="color:'+colors[g]+';">'+g+'：'+n+'個</strong>　'+bar+'</div>';
+  });
+  h+='<p style="margin-top:8px;">最も多い五行：<strong>'+most.join('・')+'</strong>';
+  if(lack.length>0){ h+='　／　不足している五行：<strong style="color:#c04040;">'+lack.join('・')+'</strong>（アロマで補うのがおすすめ）'; }
+  h+='</p></div>';
+  return h;
+}
+
+function calculateKuubou(daysDiff) {
+  let kanshiIndex = daysDiff % 60;
+  if (kanshiIndex < 0) kanshiIndex += 60;
+  
+  let kuubouType, kuboFirstShi;
+  if (kanshiIndex >= 0 && kanshiIndex <= 9) { kuubouType = '子丑空亡'; kuboFirstShi = 0; }
+  else if (kanshiIndex >= 10 && kanshiIndex <= 19) { kuubouType = '戌亥空亡'; kuboFirstShi = 10; }
+  else if (kanshiIndex >= 20 && kanshiIndex <= 29) { kuubouType = '申酉空亡'; kuboFirstShi = 8; }
+  else if (kanshiIndex >= 30 && kanshiIndex <= 39) { kuubouType = '午未空亡'; kuboFirstShi = 6; }
+  else if (kanshiIndex >= 40 && kanshiIndex <= 49) { kuubouType = '辰巳空亡'; kuboFirstShi = 4; }
+  else { kuubouType = '寅卯空亡'; kuboFirstShi = 2; }
+  
+  // 空亡の年を動的計算（今年以降の直近2年）
+  const nowY = new Date().getFullYear();
+  let y1 = nowY;
+  while ((((y1 - 1900) + 1200) % 12) !== kuboFirstShi) y1++;
+  return { type: kuubouType, kuboFirstShi: kuboFirstShi, years: y1 + '年・' + (y1+1) + '年' };
+}
+
+// ===== バイオリズム統合（biorhythm-completeの内容をそのまま使用） =====
+const BIO_NAMES=['種まき','水やり','間引き','梅雨','花咲','熱中症','再トライ','収穫','晩餐','冬入り','休眠','準備'];
+const BIO_YEAR={
+ '種まき':{d:'新規開拓の年。新しいことを始めるのに最適。',s:'good'},
+ '水やり':{d:'運気上昇。努力が実を結び始める年。',s:'good'},
+ '間引き':{d:'ここで決めたことが今後を左右する重要な年。',s:'caution'},
+ '梅雨':{d:'体調不良に注意。無理をせず休息を取る年。',s:'caution'},
+ '花咲':{d:'注目の的になる年。才能が開花する時期。',s:'good',star:true},
+ '熱中症':{d:'浮つきやすい・判断ミスに注意。',s:'caution'},
+ '再トライ':{d:'再挑戦/復縁/再始動のチャンス。',s:'good',star:true},
+ '収穫':{d:'金運上昇・結実が出る。',s:'good',star:true},
+ '晩餐':{d:'成果実感・喜びを味わう。',s:'good',star:true},
+ '冬入り':{d:'孤立する年。内省と準備の時期。',s:'caution'},
+ '休眠':{d:'運気低迷。静観し力を蓄える年。',s:'caution'},
+ '準備':{d:'不運浄化。次のサイクルに向けた準備の年。',s:'normal'}
+};
+const BIO_MONTH={
+ '種まき':'新しい出会いのチャンス','水やり':'実行、挑戦が開運',
+ '間引き':'ここで決めたことが今後を左右する','梅雨':'けが、病気に注意',
+ '花咲':'あらゆる面で幸運、才能を伸ばせる','熱中症':'心に隙が出来やすい、ミス不注意',
+ '再トライ':'再挑戦のタイミング、過去の人と縁','収穫':'金運最高潮、買い物運○',
+ '晩餐':'努力が実るタイミングだが欲張るのは禁物','冬入り':'新しいことを始めてはいけない',
+ '休眠':'興味のない望んでいない事が舞い込む','準備':'前半は悪い流れ、スタートを切るなら後半'
+};
+const KUBO_FEATURES={
+ '子丑空亡':'• 真面目で責任感が強い<br>• 忍耐力と信頼性に優れる<br>• リラックスも大切にする<br>• 堅実で安定した発展を遂げる',
+ '寅卯空亡':'• 情熱的で積極的な性格<br>• リーダーシップと決断力に優れる<br>• 感情のコントロールが重要<br>• 波乱万丈だが大成する運命',
+ '辰巳空亡':'• 自由で変化を好む性格<br>• 創造性と直感力に優れる<br>• 柔軟性を活かして発展<br>• 刺激を求める冒険心',
+ '午未空亡':'• 頭脳明晰で責任感が強い<br>• 若い頃から大人びている<br>• プライドが高く完璧主義<br>• クールだが内面は繊細',
+ '申酉空亡':'• 社交的で行動力がある<br>• 明るく自己肯定感が高い<br>• 向上心が強く働き者<br>• 事業発展で成功しやすい',
+ '戌亥空亡':'• 精神性が高く思慮深い<br>• 独自の価値観とカリスマ性<br>• 穏やかそうで内面は強固<br>• 知恵を共有することで活躍'
+};
+function bioPhase(shiIdx, kuboFirst, isEven){
+  const base = isEven ? (kuboFirst - 1 + 12) % 12 : kuboFirst;
+  return BIO_NAMES[(9 + (shiIdx - base + 12) % 12) % 12];
+}
+function buildBiorhythmHtml(kuboFirst, kuboType, birthYear){
+  const isEven = (birthYear % 2 === 0);
+  const parityLabel = isEven ? '偶数年生まれ' : '奇数年生まれ';
+  let h = '<div class="section" style="background: linear-gradient(135deg, #f3eefc, #fdf6ff); border-left: 4px solid #9575CD;">';
+  h += '<h3>🌟 あなたの空亡の特性</h3><p>' + (KUBO_FEATURES[kuboType]||'') + '</p></div>';
+  // 年間
+  h += '<div class="section"><h3>📅 年間バイオリズム（' + parityLabel + '）</h3>';
+  const nowY = new Date().getFullYear();
+  for(let y = nowY; y < nowY + 12; y++){
+    const shi = ((y - 1900) + 1200) % 12;
+    const ph = bioPhase(shi, kuboFirst, isEven);
+    const info = BIO_YEAR[ph];
+    const col = info.s==='good' ? '#e8f5e9' : info.s==='caution' ? '#fdecea' : '#f5f5f5';
+    const bc  = info.s==='good' ? '#4CAF50' : info.s==='caution' ? '#e57373' : '#9e9e9e';
+    h += '<div style="background:'+col+';border-left:4px solid '+bc+';border-radius:8px;padding:8px 12px;margin:6px 0;">'
+       + '<strong>'+y+'年　'+ph+(info.star?' ⭐':'')+'</strong>　<span style="font-size:0.9em;">'+info.d+'</span></div>';
+  }
+  h += '</div>';
+  // 月間
+  h += '<div class="section"><h3>🗓 月間バイオリズム（毎年の傾向・' + parityLabel + '）</h3>';
+  for(let mo = 1; mo <= 12; mo++){
+    const mShi = (mo === 12) ? 0 : mo; // 1月=丑(1)〜11月=亥(11)、12月=子(0)
+    const ph = bioPhase(mShi, kuboFirst, isEven);
+    h += '<div style="padding:4px 10px;border-bottom:1px dashed #ddd;font-size:0.95em;"><strong>'+mo+'月 '+ph+'</strong>：'+BIO_MONTH[ph]+'</div>';
+  }
+  h += '<p><small>※月の区切りは節入り（各月4〜8日頃）を目安にしてください。</small></p></div>';
+  return h;
+}
+
+</script>
+
+</body>
+</html>
