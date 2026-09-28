@@ -216,11 +216,11 @@ function uranai() {
   const stems = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
   const goyou = {'甲':'木','乙':'木','丙':'火','丁':'火','戊':'土','己':'土','庚':'金','辛':'金','壬':'水','癸':'水'};
   const colors = {
-    '木':['#2196F3','青','#4CAF50','緑'],
+    '木':['#2196F3','青','#4CAF50','緑','#81D4FA','水色','#9CCC65','黄緑'],
     '火':['#F44336','赤','#EC407A','ピンク','#FF9800','オレンジ'],
-    '土':['#FFEB3B','黄','#795548','茶','#F5DEB3','ベージュ','#FFD700','ゴールド'],
-    '金':['#FFFFFF','白','#C0C0C0','シルバー'],
-    '水':['#000000','黒','#9E9E9E','グレー','#3F51B5','紺','#81D4FA','水色']
+    '土':['#FFEB3B','黄色','#F5DEB3','ベージュ','#FFF44F','レモン色'],
+    '金':['#FFFFFF','白','#C0C0C0','シルバー','#D3D3D3','ライトグレー','#FFFFF0','アイボリー'],
+    '水':['#000000','黒','#1A237E','紺','#9C27B0','紫','#36454F','チャコールグレー']
   };
   
   const kuubouData = calculateKuubou(daysDiff);
@@ -394,7 +394,7 @@ function uranai() {
       job: '商社・国際関係・メディア・旅行業・貿易', 
       fortune2026: '新しい環境での成功が期待できます。計画性を持ち、変化の波を上手く乗りこなすことがカギです。',
       compatible: ['甲', '庚', '癸'],
-      lucky_items: ['水晶', '海外のお土産', '青いアイテム'],
+      lucky_items: ['水晶', '海外のお土産', '紺色のアイテム'],
       warning: '変化を求めすぎて根無し草にならないよう。時には腰を据えることも大切。'
     },
     '癸': {
@@ -427,7 +427,6 @@ function uranai() {
   document.getElementById('result').innerHTML = 
     '<div class="jikkan-title">' + ten + ' – ' + gy + '（' + data.nature + '）</div>' +
     buildMeishikiHtml(meishiki) +
-    buildDaiunHtml(meishiki, y, m, d, gender) +
     
     '<div class="section">' +
       '<h3>🌟 基本性格</h3>' +
@@ -450,7 +449,6 @@ function uranai() {
       '<p>' + data.love[gender==='male'?'m':'f'] + '</p>' +
     '</div>' +
 
-    buildPartnerHtml(meishiki, gender) +
     '<div class="section">' +
       '<h3>💼 仕事運・適職</h3>' +
       '<p><strong>仕事の特徴：</strong>' + data.work + '</p>' +
@@ -474,7 +472,7 @@ function uranai() {
 
     '<div class="section">' +
       '<h3>😌 心身調和のためのライフスタイル提案</h3>' +
-      '<p><strong>おすすめの過ごし方：</strong>' + data.stress + '</p>' +
+      '<p><strong>ストレス解消法：</strong>' + data.stress + '</p>' +
       '<p><strong>アロマ活用法：</strong>上記のアロマを' + data.element + 'のエネルギーに合わせて使用することで、より深いリラクゼーション効果が期待できます。</p>' +
     '</div>' +
 
@@ -491,7 +489,7 @@ function uranai() {
     '</div>' +
 
     '<div class="lucky-item">' +
-      '<h3>🍀 開運アイテム</h3>' +
+      '<h3>🍀 ラッキーアイテム</h3>' +
       '<p>' + data.lucky_items.join('・') + '</p>' +
     '</div>' +
 
@@ -591,96 +589,6 @@ function buildMeishikiHtml(ms){
   h+='<p style="margin-top:8px;">最も多い五行：<strong>'+most.join('・')+'</strong>';
   if(lack.length>0){ h+='　／　不足している五行：<strong style="color:#c04040;">'+lack.join('・')+'</strong>（アロマで補うのがおすすめ）'; }
   h+='</p></div>';
-  return h;
-}
-
-// ===== 通変星（日干から見た関係） =====
-const ZOKAN_HONKI=[9,5,0,1,4,2,3,5,6,7,4,8]; // 子癸 丑己 寅甲 卯乙 辰戊 巳丙 午丁 未己 申庚 酉辛 戌戊 亥壬
-const TSUHEN=[['比肩','劫財'],['食神','傷官'],['偏財','正財'],['偏官','正官'],['偏印','印綬']];
-function tsuhen(day, x){
-  const r=(Math.floor(x/2)-Math.floor(day/2)+5)%5;
-  return TSUHEN[r][(day%2===x%2)?0:1];
-}
-function spouseStars(gender){ return gender==='male' ? ['正財','偏財'] : ['正官','偏官']; }
-function childStars(gender){ return gender==='male' ? ['正官','偏官'] : ['食神','傷官']; }
-function buildPartnerHtml(ms, gender){
-  const D=ms.nichiKan, isMale=(gender==='male');
-  const items=[];
-  const push=(label,k)=>items.push({label:label, star:tsuhen(D,k)});
-  push('年干',ms.nenKan); push('月干',ms.getsuKan);
-  if(ms.hasToki) push('時干',ms.tokiKan);
-  push('年支',ZOKAN_HONKI[ms.nenShi]); push('月支',ZOKAN_HONKI[ms.getsuShi]); push('日支',ZOKAN_HONKI[ms.nichiShi]);
-  if(ms.hasToki) push('時支',ZOKAN_HONKI[ms.tokiShi]);
-  const sp=spouseStars(gender), ch=childStars(gender);
-  const spHit=items.filter(i=>sp.includes(i.star));
-  const chHit=items.filter(i=>ch.includes(i.star));
-  const nichiStar=tsuhen(D, ZOKAN_HONKI[ms.nichiShi]);
-  const spName = isMale ? '財星（正財＝妻・正式なパートナー／偏財＝恋人・交際相手）' : '官星（正官＝夫・正式なパートナー／偏官＝恋人・刺激的な相手）';
-  const chName = isMale ? '官星（正官・偏官）' : '食傷（食神・傷官）';
-  let msg;
-  if(spHit.length===0) msg='命式にはパートナーの星がありません。人に頼らず自分の力で人生を切り開く、自立心の強いタイプです。大運で星が巡ってくる時期（下の大運表の💍）がご縁のタイミングになります。';
-  else if(spHit.length<=2) msg='パートナーの星がほどよくあり、自然なご縁に恵まれやすいタイプです。';
-  else msg='パートナーの星が多く、異性とのご縁が多いタイプ。相手選びを大切にすると幸せが長続きします。';
-  let h='<div class="section" style="background: linear-gradient(135deg, #eef6fb, #f0fbf6); border-left: 4px solid #4BA8C8;">';
-  h+='<h3>💍 パートナー運・家族運（' + (isMale?'男性':'女性') + 'の見方）</h3>';
-  h+='<p><strong>パートナーの星：</strong>' + spName + '</p>';
-  h+='<p>命式の中に <strong>' + spHit.length + '個</strong>' + (spHit.length?'（'+spHit.map(i=>i.label+'：'+i.star).join('、')+'）':'') + '</p>';
-  h+='<p>' + msg + '</p>';
-  h+='<p><strong>配偶者の座（日支）：</strong>' + S12[ms.nichiShi] + '（' + nichiStar + '）</p>';
-  h+='<p><strong>子どもの星：</strong>' + chName + '　命式の中に ' + chHit.length + '個</p>';
-  h+='<p><small>※四柱推命では、男性は財星、女性は官星をパートナーの星とみます。子どもの星も男女で異なります。地支は蔵干の本気で判定しています。</small></p></div>';
-  return h;
-}
-
-// ===== 大運（性別と年の陰陽で順行・逆行が決まる） =====
-function buildDaiunHtml(ms, y, m, d, gender){
-  const yearYang = (ms.nenKan % 2 === 0);           // 甲丙戊庚壬＝陽年
-  const isMale = (gender === 'male');
-  const forward = (yearYang && isMale) || (!yearYang && !isMale); // 陽年男・陰年女＝順行
-  // 立運（節入りまでの日数÷3）
-  const birth = new Date(y, m-1, d);
-  const setsuThis = new Date(y, m-1, SETSU[m-1]);
-  let prevSetsu, nextSetsu;
-  if (d >= SETSU[m-1]) {
-    prevSetsu = setsuThis;
-    const nm = (m % 12) + 1, ny = (m === 12) ? y+1 : y;
-    nextSetsu = new Date(ny, nm-1, SETSU[nm-1]);
-  } else {
-    nextSetsu = setsuThis;
-    const pm = (m === 1) ? 12 : m-1, py = (m === 1) ? y-1 : y;
-    prevSetsu = new Date(py, pm-1, SETSU[pm-1]);
-  }
-  const days = Math.round(Math.abs((forward ? nextSetsu : prevSetsu) - birth) / 86400000);
-  const startAge = Math.max(1, Math.round(days / 3));
-  // 現在の満年齢
-  const t = new Date();
-  let age = t.getFullYear() - y;
-  if (t.getMonth()+1 < m || (t.getMonth()+1 === m && t.getDate() < d)) age--;
-  const step = forward ? 1 : -1;
-  const genderLabel = isMale ? '男性' : '女性';
-  let h = '<div class="section" style="background: linear-gradient(135deg, #eef6fb, #f0fbf6); border-left: 4px solid #4BA8C8;">';
-  h += '<h3>🧭 大運（10年ごとの運気の流れ）</h3>';
-  h += '<p><strong>' + genderLabel + '・' + (yearYang ? '陽年' : '陰年') + '生まれ → ' + (forward ? '順行' : '逆行') + '</strong>　立運：' + startAge + '歳</p>';
-  const th='padding:6px;border:1px solid #b8d4e0;background:#4BA8C8;color:#fff;font-size:0.9em;';
-  h += '<table style="width:100%;border-collapse:collapse;margin:8px 0;">';
-  h += '<tr><th style="'+th+'">年齢</th><th style="'+th+'">大運</th><th style="'+th+'">五行</th><th style="'+th+'">通変星</th></tr>';
-  const sp = spouseStars(gender);
-  for (let i = 1; i <= 9; i++) {
-    const k = ((ms.getsuKan + step*i) % 10 + 10) % 10;
-    const sh = ((ms.getsuShi + step*i) % 12 + 12) % 12;
-    const from = startAge + (i-1)*10, to = from + 9;
-    const now = (age >= from && age <= to);
-    const bg = now ? '#fff8d6' : '#fff';
-    const td = 'padding:7px 6px;border:1px solid #b8d4e0;text-align:center;background:'+bg+';';
-    h += '<tr><td style="'+td+'">' + from + '〜' + to + '歳' + (now ? '<br><small style="color:#c04040;">★現在</small>' : '') + '</td>'
-       + '<td style="'+td+'font-size:1.2em;font-weight:bold;">' + K10[k] + S12[sh] + '</td>'
-       + '<td style="'+td+'">' + KAN_GOGYO[k] + '・' + SHI_GOGYO[sh] + '</td>'
-       + (function(){ const a=tsuhen(ms.nichiKan,k), b=tsuhen(ms.nichiKan,ZOKAN_HONKI[sh]);
-           const ring=(sp.includes(a)||sp.includes(b))?' 💍':'';
-           return '<td style="'+td+'font-size:0.9em;">' + a + '／' + b + ring + '</td></tr>'; })();
-  }
-  h += '</table>';
-  h += '<p><small>※四柱推命では、年の陰陽と性別により大運の進み方（順行・逆行）が変わります。通変星は「天干／地支」、💍はパートナーの星が巡る時期です。立運は節入り日の目安から算出しています。</small></p></div>';
   return h;
 }
 
