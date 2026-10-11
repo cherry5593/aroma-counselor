@@ -186,6 +186,15 @@
 </div>
 
 <script>
+// ===== 五行別のおすすめの食べ物 =====
+const GOGYO_FOOD = {
+  '木': '酸味のあるもの。青い葉物（青菜、ブロッコリー、ほうれん草）、柑橘系、酢の物など。',
+  '火': '苦みのあるもの。赤い食べ物（スイカ、ニガウリ、トマト）など。',
+  '土': '甘みのあるもの。黄色い食べ物（かぼちゃ、さつまいも、とうもろこし）など。',
+  '金': '辛みのあるもの。白い食べ物（大根、玉ねぎ、ねぎ、しょうが）など。',
+  '水': '塩味のあるもの。黒い食べ物（黒豆、黒ごま、ひじき、海藻）など。'
+};
+
 function uranai() {
   const val = document.getElementById('birth').value;
   if (!val) {
@@ -473,14 +482,14 @@ function uranai() {
     '<div class="section">' +
       '<h3>😌 心身調和のためのライフスタイル提案</h3>' +
       '<p><strong>ストレス解消法：</strong>' + data.stress + '</p>' +
-      '<p><strong>アロマ活用法：</strong>上記のアロマを' + data.element + 'のエネルギーに合わせて使用することで、より深いリラクゼーション効果が期待できます。</p>' +
+      '<p><strong>🍽 ' + data.element + 'の性質を整える食べ物：</strong>' + GOGYO_FOOD[data.element] + '</p>' +
     '</div>' +
 
     '<div class="section" style="background: linear-gradient(135deg, #e8f5e8, #f0fff0); border-left: 4px solid #4CAF50;">' +
       '<h3>🌸 あなた専用アロマ処方箋</h3>' +
       '<p><strong>陰陽五行理論に基づく最適なアロマブレンド：</strong></p>' +
       '<div class="aroma-list">' + data.aroma.map(function(item) { return '<span class="aroma-item">' + item + '</span>'; }).join('') + '</div>' +
-      '<p><small>※これらのアロマは' + data.element + 'の性質を持つあなたの心身バランスを整え、エネルギーを調和させます。</small></p>' +
+      '<p>持って生まれた<strong>' + data.element + 'の性質</strong>のアロマと、これまでの経験や記憶から選んだ<strong>「好きな香り」</strong>の中から<strong>3本</strong>を選んでブレンドし、あなただけの<strong>「お守りアロマ」</strong>を作りましょう。</p>' +
     '</div>' +
 
     '<div class="section">' +
@@ -644,6 +653,7 @@ const KUBO_FEATURES={
  '戌亥空亡':'• 精神性が高く思慮深い<br>• 独自の価値観とカリスマ性<br>• 穏やかそうで内面は強固<br>• 知恵を共有することで活躍'
 };
 function bioPhase(shiIdx, kuboFirst, isEven){
+  // 奇数年生まれ：空亡＝「冬入り」「休眠」／偶数年生まれ：空亡＝「休眠」「準備」
   const base = isEven ? (kuboFirst - 1 + 12) % 12 : kuboFirst;
   return BIO_NAMES[(9 + (shiIdx - base + 12) % 12) % 12];
 }
@@ -659,18 +669,20 @@ function buildBiorhythmHtml(kuboFirst, kuboType, birthYear){
     const shi = ((y - 1900) + 1200) % 12;
     const ph = bioPhase(shi, kuboFirst, isEven);
     const info = BIO_YEAR[ph];
+    const isKubo = (shi===kuboFirst||shi===(kuboFirst+1)%12);
     const col = info.s==='good' ? '#e8f5e9' : info.s==='caution' ? '#fdecea' : '#f5f5f5';
     const bc  = info.s==='good' ? '#4CAF50' : info.s==='caution' ? '#e57373' : '#9e9e9e';
     h += '<div style="background:'+col+';border-left:4px solid '+bc+';border-radius:8px;padding:8px 12px;margin:6px 0;">'
-       + '<strong>'+y+'年　'+ph+(info.star?' ⭐':'')+'</strong>　<span style="font-size:0.9em;">'+info.d+'</span></div>';
+       + '<strong>'+y+'年　'+ph+(info.star?' ⭐':'')+(isKubo?' <span style="color:#c04040;">【空亡】</span>':'')+'</strong>　<span style="font-size:0.9em;">'+info.d+'</span></div>';
   }
+  h += '<p><small>※バイオリズムは、12年でめぐる運気の季節の流れを表しています。</small></p>';
   h += '</div>';
   // 月間
   h += '<div class="section"><h3>🗓 月間バイオリズム（毎年の傾向・' + parityLabel + '）</h3>';
   for(let mo = 1; mo <= 12; mo++){
     const mShi = (mo === 12) ? 0 : mo; // 1月=丑(1)〜11月=亥(11)、12月=子(0)
     const ph = bioPhase(mShi, kuboFirst, isEven);
-    h += '<div style="padding:4px 10px;border-bottom:1px dashed #ddd;font-size:0.95em;"><strong>'+mo+'月 '+ph+'</strong>：'+BIO_MONTH[ph]+'</div>';
+    h += '<div style="padding:4px 10px;border-bottom:1px dashed #ddd;font-size:0.95em;"><strong>'+mo+'月 '+ph+((mShi===kuboFirst||mShi===(kuboFirst+1)%12)?' <span style="color:#c04040;">【空亡】</span>':'')+'</strong>：'+BIO_MONTH[ph]+'</div>';
   }
   h += '<p><small>※月の区切りは節入り（各月4〜8日頃）を目安にしてください。</small></p></div>';
   return h;
